@@ -2,7 +2,6 @@ import { save, get } from "./presistentData"
 save()
 
 const metadata = JSON.parse(FileLib.read("SBECommands", "metadata.json"))
-console.log(JSON.stringify(metadata))
 
 const version = metadata.version
 const firstMessage = [

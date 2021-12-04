@@ -1,4 +1,4 @@
-import { errorHypixelAPI, errorMojangAPI } from "../Modules/errorHandler"
+import { errorHypixelAPI, errorMaroAPI, errorMojangAPI } from "../Modules/errorHandler"
 import { getHypixelPlayer, getMojang, getSkyblockData, postDecodeData, postMaroNetworth } from "../Modules/requestHandler"
 import { formatRank } from "../Utils/formatRank"
 import { addNotation } from "../Utils/addNotation"
@@ -123,14 +123,13 @@ function matchProfile(uuid, memberData) {
             }   
         })
         postDecodeData(maroEncode).then(testDecode => {
-            console.log(JSON.stringify(testDecode))
             final(uuid, maro.body.data, testDecode.body)
         }).catch(error => {
             final(uuid, maro.body.data, null)
         })
         
     }).catch(error => {
-        console.log(JSON.stringify(error))
+        errorMaroAPI(error)
     })
 }
 

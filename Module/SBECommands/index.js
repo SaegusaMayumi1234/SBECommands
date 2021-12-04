@@ -7,6 +7,7 @@ import { nothing } from "./Modules/notifier"
 const commandName = [
     "sbecsettings",
     "sbecsetkey",
+    "sbecauthor",
     "calcpet",
     "calcskill",
     "calccata",
