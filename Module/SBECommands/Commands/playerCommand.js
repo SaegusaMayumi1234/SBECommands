@@ -191,7 +191,7 @@ function matchProfile(uuid, skyblockHy, skyblockSe) {
         //inventory
         if (skyblockHy.members[uuid].inv_contents !== undefined) {
             inv = `&aClick here to view Inventory!`
-            chat.push(new Message().addTextComponent(new TextComponent(`&aClick here to view Inventory!`).setClick("run_command", "/inventory1 " + player.body.player.displayname + " " + skyblockHy.cute_name)))
+            chat.push(new Message().addTextComponent(new TextComponent(`&aClick here to view Inventory!`).setClick("run_command", "/inventory " + player.body.player.displayname + " " + skyblockHy.cute_name)))
         } else {
             chat.push(new Message().addTextComponent(new TextComponent(`&cInventory Api Off&r`)))
         }
