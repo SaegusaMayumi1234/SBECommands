@@ -3,6 +3,6 @@
     "author": "IcarusPhantom",
     "entry": "index.js",
     "version": "1.0.0",
-    "requires": ["PromiseV2", "PogData"],
+    "requires": ["PromiseV2", "PogData", "Vigilance"],
     "description": "Recreating SBE command that possible in chattrigger"
 }
