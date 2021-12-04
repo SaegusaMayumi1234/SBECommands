@@ -15,7 +15,7 @@ app.all('/', (req, res)=>{
 app.post('/api/chattriggers/maro/decoder', async function (req, res) {
   let decodedDataDone = await decodeData(req.body)
   res.status(200).json(decodedDataDone)
-  console.log("a Request from: ")
+  console.log("a post request from ctjs completed!")
 })
 
 
