@@ -106,6 +106,7 @@ function invDisabled(uuid, profileArg) {
 function matchProfile(uuid, memberData) {
     postMaroNetworth(memberData).then(maro => {
         let maroData = maro.body.data
+        console.log(JSON.stringify(maroData))
         let maroEncode = {}
         categoriesSequence.forEach(category => {
             if (maroData.categories[category] !== undefined) {
@@ -122,11 +123,11 @@ function matchProfile(uuid, memberData) {
                 maroEncode[category] = topItemFixed
             }   
         })
-        postDecodeData(maroEncode).then(testDecode => {
-            final(uuid, maro.body.data, testDecode.body)
-        }).catch(error => {
+        //postDecodeData(maroEncode).then(testDecode => {
+        //    final(uuid, maro.body.data, testDecode.body)
+        //}).catch(error => {
             final(uuid, maro.body.data, null)
-        })
+        //})
         
     }).catch(error => {
         errorMaroAPI(error)
@@ -166,7 +167,8 @@ function final(uuid, maroData, decodedString) {
             chat[chatNum].addTextComponent(new TextComponent(`&d | &bStorage: &6${addNotation("oneLetters", maroData.categories.storage.total)}&r`))
             let storageHover = []
             if (decodedString == null) {
-                storageHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                //storageHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                storageHover.push("&call item name will formated to light purple since maro doesn't have itemData anymore")
                 for (let i = 0; i < 16; i++) {
                     if (maroData.categories.storage.top_items[i] !== undefined) {
                         let name = maroData.categories.storage.top_items[i].name
@@ -188,7 +190,8 @@ function final(uuid, maroData, decodedString) {
             chat[chatNum].addTextComponent(new TextComponent(`&d | &bInventory: &6${addNotation("oneLetters", maroData.categories.inventory.total)}&r`))
             let inventoryHover = []
             if (decodedString == null) {
-                inventoryHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                //inventoryHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                inventoryHover.push("&call item name will formated to light purple since maro doesn't have itemData anymore")
                 for (let i = 0; i < 16; i++) {
                     if (maroData.categories.inventory.top_items[i] !== undefined) {
                         let name = maroData.categories.inventory.top_items[i].name
@@ -210,7 +213,8 @@ function final(uuid, maroData, decodedString) {
             chat[chatNum].addTextComponent(new TextComponent(`&d | &bEnderchest: &6${addNotation("oneLetters", maroData.categories.enderchest.total)}&r`))
             let enderchestHover = []
             if (decodedString == null) {
-                enderchestHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                //enderchestHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                enderchestHover.push("&call item name will formated to light purple since maro doesn't have itemData anymore")
                 for (let i = 0; i < 16; i++) {
                     if (maroData.categories.enderchest.top_items[i] !== undefined) {
                         let name = maroData.categories.enderchest.top_items[i].name
@@ -232,7 +236,8 @@ function final(uuid, maroData, decodedString) {
             chat[chatNum].addTextComponent(new TextComponent(`&d | &bArmor: &6${addNotation("oneLetters", maroData.categories.armor.total)}&r`))
             let armorHover = []
             if (decodedString == null) {
-                armorHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                //armorHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                armorHover.push("&call item name will formated to light purple since maro doesn't have itemData anymore")
                 for (let i = 0; i < 16; i++) {
                     if (maroData.categories.armor.top_items[i] !== undefined) {
                         let name = maroData.categories.armor.top_items[i].name
@@ -254,7 +259,8 @@ function final(uuid, maroData, decodedString) {
             chat[chatNum].addTextComponent(new TextComponent(`&d | &bWardrobe Inventory: &6${addNotation("oneLetters", maroData.categories.wardrobe_inventory.total)}&r`))
             let wardrobe_inventoryHover = []
             if (decodedString == null) {
-                wardrobe_inventoryHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                //wardrobe_inventoryHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                wardrobe_inventoryHover.push("&call item name will formated to light purple since maro doesn't have itemData anymore")
                 for (let i = 0; i < 16; i++) {
                     if (maroData.categories.wardrobe_inventory.top_items[i] !== undefined) {
                         let name = maroData.categories.wardrobe_inventory.top_items[i].name
@@ -298,7 +304,8 @@ function final(uuid, maroData, decodedString) {
             chat[chatNum].addTextComponent(new TextComponent(`&d | &bTalismans: &6${addNotation("oneLetters", maroData.categories.talismans.total)}&r`))
             let talismansHover = []
             if (decodedString == null) {
-                talismansHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                //talismansHover.push("&cSorry my decoder API is down, all item name will formated to light purple")
+                talismansHover.push("&call item name will formated to light purple since maro doesn't have itemData anymore")
                 for (let i = 0; i < 16; i++) {
                     if (maroData.categories.talismans.top_items[i] !== undefined) {
                         let name = maroData.categories.talismans.top_items[i].name
@@ -335,4 +342,3 @@ function help() {
 }
 
 export { run, help }
-//&r&6 &6Ã¢ÂœÂª&6Ã¢ÂœÂª&6Ã¢ÂœÂª&6Ã¢ÂœÂª&6Ã¢ÂœÂª &b- 12.9M&r
