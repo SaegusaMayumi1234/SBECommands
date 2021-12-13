@@ -8,6 +8,7 @@ const Minecraft = Client.getMinecraft();
 const ItemStack = Java.type("net.minecraft.item.ItemStack");
 const InventoryBasic = Java.type("net.minecraft.inventory.InventoryBasic");
 const GuiChest = Java.type("net.minecraft.client.gui.inventory.GuiChest");
+const MCItem = Java.type("net.minecraft.item.Item")
 
 let lastInv = null
 let invToOpen = null
@@ -129,7 +130,7 @@ function matchProfile(uuid, skyblockHy) {
             }
 
             for (let i = 0; i < 18; i++){                                    
-                let itemstack = new ItemStack(net.minecraft.init.Blocks.field_150397_co); //Blocks.stainedGlass
+                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(""); //Blocks.stainedGlass
                 let slot = i //Move hotbar slots to bottom
                 if (slot != 1 && slot != 3 && slot != 5 && slot != 7 ) {
                     inv.func_70299_a(slot, itemstack);
