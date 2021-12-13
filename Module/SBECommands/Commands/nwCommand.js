@@ -106,7 +106,7 @@ function invDisabled(uuid, profileArg) {
 function matchProfile(uuid, memberData) {
     postMaroNetworth(memberData).then(maro => {
         let maroData = maro.body.data
-        console.log(JSON.stringify(maroData))
+        //console.log(JSON.stringify(maroData))
         let maroEncode = {}
         categoriesSequence.forEach(category => {
             if (maroData.categories[category] !== undefined) {
