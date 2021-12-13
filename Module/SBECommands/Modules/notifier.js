@@ -21,7 +21,8 @@ const changelogMessage = [
     `&3&l&nSBECommands ${version}`,
     "",
     "&aChangelog:",
-    "&b - First Release!",
+    "&b - Changing white stained glass pane to blank in inventory command!",
+    "&c - Removed decoder api in nw command since maro doesn't give itemData anymore!"
 ]
 
 if (get("firsttime")) {
@@ -35,8 +36,12 @@ if (get("firsttime")) {
 
 if (get("version") != version) {
     ChatLib.chat(`&b&m${ChatLib.getChatBreak(" ")}`)
-    for (let msg of changelogMessage) {
-        ChatLib.chat(ChatLib.getCenteredText(msg))
+    for (let i = 0; i < changelogMessage.length; i++) {
+        if (i == 0) {
+            ChatLib.chat(ChatLib.getCenteredText(changelogMessage[i]))
+        } else {
+            ChatLib.chat(changelogMessage[i])
+        }
     }
     ChatLib.chat(`&b&m${ChatLib.getChatBreak(" ")}`)
     save("version", version)
