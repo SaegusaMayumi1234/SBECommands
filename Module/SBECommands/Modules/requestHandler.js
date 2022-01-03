@@ -30,9 +30,9 @@ export function getSkyblockSenitherData(uuid, param) {
 }
 
 export function postMaroNetworth(data) {
-    return request({url: "https://nariah-dev.com/api/networth/categories", method: "POST", body: {data: data}, headers: headers, json: true, connectTimeout: 1000})
+    return request({url: "https://IcarusPhantom-API.saegusamayumi.repl.co/api/networth/categories", method: "POST", body: {data: data}, headers: headers, json: true, connectTimeout: 10000})
 }
 
 export function postDecodeData(data) {
-    return request({url: "https://IcarusPhantom-API.saegusamayumi.repl.co/api/chattriggers/maro/decoder", method: "POST", body: data, headers: headers, json: true, connectTimeout: 1000})
+    return request({url: "https://IcarusPhantom-API.saegusamayumi.repl.co/api/chattriggers/maro/decoder", method: "POST", body: data, headers: headers, json: true, connectTimeout: 10000})
 }

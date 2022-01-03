@@ -21,8 +21,9 @@ const changelogMessage = [
     `&3&l&nSBECommands ${version}`,
     "",
     "&aChangelog:",
-    "&b - Changing white stained glass pane to blank in inventory command!",
-    "&c - Removed decoder api in nw command since maro doesn't give itemData anymore!"
+    "&b - Changing nw command api to using my own fork!",
+    "&b - nw command details now give color code because I modified maro api to support this!",
+    "&c - Note: nw command api can down anytime since I use free host. So please report it to me when it down!"
 ]
 
 if (get("firsttime")) {

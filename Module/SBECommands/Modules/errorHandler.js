@@ -56,7 +56,11 @@ export function errorHypixelSenitherAPI(error, reason) {
 
 export function errorMaroAPI(error) {
     if (error.status >= 500) {
-        ChatLib.chat(`&3[SBEC] &cAn error occured while trying to get networth data! This may caused by Maro api has problem in their end (status code: ${error.status})&r`)
+        if (error.status == 502) {
+            ChatLib.chat(`&3[SBEC] &cAn error occured while trying to get networth data! My API currently down, please wait a few moment or contact IcarusPhantom using contact at &e/sbecauthor (status code: ${error.status})&r`)
+        } else {
+            ChatLib.chat(`&3[SBEC] &cAn error occured while trying to get networth data! This may caused by Maro api has problem in their end (status code: ${error.status})&r`)
+        }
     } else {
         if (error.status !== undefined) {
             ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to get networth data! (status code: ${error.status})&r`)
