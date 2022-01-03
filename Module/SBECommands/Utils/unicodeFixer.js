@@ -1,9 +1,12 @@
 export function fixUnicodeMaro(str) {
-    return str.replace(/âœª/g, "&6✪")
+    return str.replace(/Â§/g, "&")
+    .replace(/âœª/g, "&6✪")
     .replace(/â�Ÿ/g, "&c✪")
     .replace(/âšš/g, "⚚")
     .replace(/âœ¦/g, "✦")
     .replace(/Ã¢Â„Â¢/g, "™")
+    .replace(/â„¢/g, "™")
+
 }
 
 export function fixUnicodeGlobal(str) {
