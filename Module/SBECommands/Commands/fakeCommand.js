@@ -1,10 +1,11 @@
-function run(args) {
-    ChatLib.chat(args.join(" "))
-}
+let customCommandName = 'fake';
 
-function help() {
-    const helpMessage = new Message().addTextComponent(new TextComponent(` &a◆ /fake &8(Hover for usage)&r &7↣Returns new faked string. Color Codes enabled&r`).setHover("show_text", `&efake`))
-    helpMessage.chat()
+module.exports = {
+    name: 'fake',
+    execute(args) {
+        ChatLib.chat(args.join(' '));
+    },
+    inject(name) {
+        customCommandName = name;
+    }
 }
-
-export { run, help }
