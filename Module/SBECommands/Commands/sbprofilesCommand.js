@@ -1,61 +1,35 @@
-import { errorHypixelAPI, errorMojangAPI } from "../Modules/errorHandler"
-import { getHypixelPlayer, getMojang, getSkyblockData } from "../Modules/requestHandler"
-import { humanizeTime } from "../Utils/humanizeTime"
-import { formatRank } from "../Utils/formatRank"
-import { timestampToDate } from "../Utils/timestampToDate"
+import { getProfile } from "../Modules/APIWrapper/Route";
+import { errorRead, humanizeTime, timestampToDate } from "../Utils/Utils";
 
-function run(args) {
-    let name = args[0] == undefined ? Player.getName() : args[0]
-    getMojang(name).then(mojang => {
-        getSkyblockData(mojang.body.id).then(skyblock => {
-            if (skyblock.body.profiles == null) {
-                noProfile(mojang.body.id, mojang.body.name)
-            } else {
-                hasProfile(mojang.body.id, skyblock.body.profiles)
+let customCommandName = 'sbprofiles';
+
+module.exports = {
+    name: 'sbprofiles',
+    execute(args) {
+        let name = args[0] == undefined ? Player.getName() : args[0];
+        getProfile(name, 'last save', 'all').then(data => {
+            if (data.error) {
+                errorRead(data.text);
+                return;
             }
+            let chat = [];
+            chat.push(new Message().addTextComponent(new TextComponent(`&bProfiles for: ${data.formatedName}&r`)));
+            chat.push(new Message().addTextComponent(new TextComponent(`&r`)))
+            data.raw.profiles.forEach(profile => {
+                chat.push(new Message().addTextComponent(new TextComponent(`&b${profile.cute_name}: &e~${humanizeTime(new Date().getTime() - profile.members[data.uuid].last_save)}&r`)));
+                chat.push(new Message().addTextComponent(new TextComponent(`&7${timestampToDate(profile.members[data.uuid].last_save)}&r`)));
+            })
+            ChatLib.chat("&c&m--------------------&r")
+            chat.forEach(msg => {
+                msg.chat()
+            })
+            ChatLib.chat("&c&m--------------------&r")
         }).catch(error => {
-            errorHypixelAPI(error, "while getting skyblock data")
-        })
-    }).catch(error => {
-        errorMojangAPI(error)
-    })
-}
-
-function noProfile(uuid, username) {
-    getHypixelPlayer(uuid).then(player => {
-        let name = player.body.player == null ? `&7${username}` : formatRank(player.body.player)
-        ChatLib.chat("&c&m--------------------&r")
-        ChatLib.chat(`${name} &cdoesn't have any skyblock profiles!&r`)
-        ChatLib.chat("&c&m--------------------&r")
-    }).catch(error => {
-        errorHypixelAPI(error, "while trying to get player data")
-    })
-}
-
-function hasProfile(uuid, profiles) {
-    getHypixelPlayer(uuid).then(player => {
-        let name = player.body.player == null ? `&7${username}` : formatRank(player.body.player)
-        let chatArray = []
-        profiles.forEach(profile => {
-            chatArray.push(`&b${profile.cute_name}: &e~${humanizeTime(new Date().getTime() - profile.members[uuid].last_save)}`)
-            chatArray.push(`&7${timestampToDate(profile.members[uuid].last_save)}`)
+            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
         });
-        ChatLib.chat("&c&m--------------------&r")
-        ChatLib.chat(`&bProfiles for: ${name}`)
-        ChatLib.chat("&r")
-        chatArray.forEach(chat => {
-            ChatLib.chat(chat)
-        })
-        ChatLib.chat("&r")
-        ChatLib.chat("&c&m--------------------&r")
-    }).catch(error => {
-        errorHypixelAPI(error, "while trying to get player data")
-    })
+        
+    },
+    inject(name) {
+        customCommandName = name;
+    }
 }
-
-function help() {
-    const helpMessage = new Message().addTextComponent(new TextComponent(` &a◆ /sbprofiles &8(Hover for usage)&r &7↣Returns profiles for given player&r`).setHover("show_text", `&esbprofiles [username]`))
-    helpMessage.chat()
-}
-
-export { run, help }

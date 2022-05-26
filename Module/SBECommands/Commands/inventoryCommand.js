@@ -1,6 +1,7 @@
-import { errorHypixelAPI, errorMojangAPI } from "../Modules/errorHandler"
-import { getHypixelPlayer, getMojang, getSkyblockData } from "../Modules/requestHandler"
-import { formatRank } from "../Utils/formatRank"
+import { getProfile } from '../Modules/APIWrapper/Route';
+import { errorRead } from '../Utils/Utils';
+
+let customCommandName = 'invetory';
 
 const Minecraft = Client.getMinecraft();
 
@@ -8,108 +9,58 @@ const Minecraft = Client.getMinecraft();
 const ItemStack = Java.type("net.minecraft.item.ItemStack");
 const InventoryBasic = Java.type("net.minecraft.inventory.InventoryBasic");
 const GuiChest = Java.type("net.minecraft.client.gui.inventory.GuiChest");
-const MCItem = Java.type("net.minecraft.item.Item")
+const MCItem = Java.type("net.minecraft.item.Item");
 
-let lastInv = null
-let invToOpen = null
+let lastInv = null;
+let invToOpen = null;
 
-function run(args) {
-    let name = args[0] == undefined ? Player.getName() : args[0]
-    let profileArg = args[1] == undefined ? "last_save" : args[1]
-    getMojang(name).then(mojang => {
-        ChatLib.chat(`&3[SBEC] &aFinding inventory for ${mojang.body.name}`)
-        getSkyblockData(mojang.body.id).then(skyblockHy => {
-            if (skyblockHy.body.profiles == null) {
-                noProfile(mojang.body.id, mojang.body.name)
-            } else {
-                if (profileArg === "last_save") {
-                    let profiles = skyblockHy.body.profiles.sort((a, b) => b.members[mojang.body.id].last_save - a.members[mojang.body.id].last_save)
-                    let profileMatched = profiles[0]
-                    matchProfile(mojang.body.id, profileMatched)
-                } else {
-                    let profiles = skyblockHy.body.profiles
-                    let profileMatched = null
-                    profiles.forEach(profile => {
-                        if (profile.cute_name.toLowerCase() == profileArg.toLowerCase()) {
-                            profileMatched = profile
-                        }
-                    })
-                    if (profileMatched != null) {
-                        matchProfile(mojang.body.id, profileMatched)
-                    } else {
-                        noMatchProfile(mojang.body.id, profileArg)
-                    }
-                }
+module.exports = {
+    name: 'inventory',
+    execute(args) {
+        let name = args[0] == undefined ? Player.getName() : args[0];
+        let profileArg = args[1] == undefined ? "last save" : args[1];
+        ChatLib.chat(`&3[SBEC] &aFinding inventory for ${name}`);
+        getProfile(name, profileArg).then(data => {
+            if (data.error) {
+                errorRead(data.text);
+                return;
             }
-        }).catch(error => {
-            errorHypixelAPI(error, "while getting skyblock data")
-        })
-    }).catch(error => {
-        errorMojangAPI(error)
-    })
-}
 
-function noProfile(uuid, username) {
-    getHypixelPlayer(uuid).then(player => {
-        let name = player.body.player == null ? `&7${username}` : formatRank(player.body.player)
-        ChatLib.chat("&c&m--------------------&r")
-        ChatLib.chat(`${name} &cdoesn't have any skyblock profiles!&r`)
-        ChatLib.chat("&c&m--------------------&r")
-    }).catch(error => {
-        errorHypixelAPI(error, "while trying to get player data")
-    })
-}
+            if (data.raw.members[data.uuid].inv_contents == null) {
+                ChatLib.chat("&c&m--------------------&r");
+                ChatLib.chat(`&3[SBEC] &cInventory API is not enabled for: ${data.formatedName}&r`);
+                ChatLib.chat("&c&m--------------------&r");
+                return;
+            }
 
-function noMatchProfile(uuid, profileArg) {
-    getHypixelPlayer(uuid).then(player => {
-        let name = player.body.player == null ? `&7${username}` : formatRank(player.body.player)
-        ChatLib.chat("&c&m--------------------&r")
-        ChatLib.chat(`${name} &cdoesn't have any skyblock profile named '${profileArg}'!&r`)
-        ChatLib.chat("&c&m--------------------&r")
-    }).catch(error => {
-        errorHypixelAPI(error, "while trying to get player data")
-    })
-}
-
-function matchProfile(uuid, skyblockHy) {
-    getHypixelPlayer(uuid).then(player => {
-        let name = formatRank(player.body.player)
-        //let chat = []
-
-        //get inventory data
-        if(skyblockHy.members[uuid].inv_contents == null) {
-            ChatLib.chat("&c&m--------------------&r")
-            ChatLib.chat(`&3[SBEC] &cInventory API is not enabled for: ${name}&r`)
-            ChatLib.chat("&c&m--------------------&r")
-        } else {
-            let invContents = skyblockHy.members[uuid].inv_contents.data
+            let invContents = data.raw.members[data.uuid].inv_contents.data;
             let bytearray = java.util.Base64.getDecoder().decode(invContents);
             let inputstream = new java.io.ByteArrayInputStream(bytearray);                                
             let nbt = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream); //CompressedStreamTools.readCompressed()                            
             let items = nbt.func_150295_c("i", 10); //NBTTagCompound.getTagList()
             let length = items.func_74745_c(); //NBTTagList.tagCount()
 
-            let inv = new InventoryBasic(player.body.player.displayname + "'s Inventory", true, 54);
+            let inv = new InventoryBasic(data.name + "'s Inventory", true, 54);
 
-            for(let i = 0; i < length; i++){                                    
+            for (let i = 0; i < length; i++) {                                    
                 let item = items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
                 
                 if(!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
                     let itemstack = new ItemStack(net.minecraft.init.Blocks.field_150350_a); //Blocks.air
                     itemstack.func_77963_c(item); //ItemStack.readFromNBT()
-                    let slot = i < 9 ? i + 45 : i + 9 //Move hotbar slots to bottom
+                    let slot = i < 9 ? i + 45 : i + 9; //Move hotbar slots to bottom
                     inv.func_70299_a(slot, itemstack); //InventoryBasic.setInventorySlotContents()
                 }
             }
 
-            let invArmorContents = skyblockHy.members[uuid].inv_armor.data
+            let invArmorContents = data.raw.members[data.uuid].inv_armor.data;
             let bytearray2 = java.util.Base64.getDecoder().decode(invArmorContents);
             let inputstream2 = new java.io.ByteArrayInputStream(bytearray2);                                
             let nbt2 = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream2); //CompressedStreamTools.readCompressed()                            
             let items2 = nbt2.func_150295_c("i", 10); //NBTTagCompound.getTagList()
             let length2 = items2.func_74745_c(); //NBTTagList.tagCount()
             
-            for (let i = 0; i < length2; i++){                                    
+            for (let i = 0; i < length2; i++) {                                    
                 let item = items2.func_150305_b(i); //NBTTagList.getCompoundTagAt()
                 if (!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
                     let itemstack = new ItemStack(net.minecraft.init.Blocks.field_150350_a); //Blocks.stainedGlass
@@ -117,13 +68,13 @@ function matchProfile(uuid, skyblockHy) {
                     
                     let slot = i //Move hotbar slots to bottom
                     if (slot == 0) {
-                        slot = 7
+                        slot = 7;
                     } else if (slot == 1) {
-                        slot = 5
+                        slot = 5;
                     } else if (slot == 2) {
-                        slot = 3
+                        slot = 3;
                     } else if (slot == 3) {
-                        slot = 1
+                        slot = 1;
                     }
                     inv.func_70299_a(slot, itemstack); //InventoryBasic.setInventorySlotContents()
                 }
@@ -141,10 +92,13 @@ function matchProfile(uuid, skyblockHy) {
 
             lastInv = guiChest;
             invToOpen = guiChest;
-        }
-    }).catch(error => {
-        errorHypixelAPI(error, "while trying to get player data")
-    })
+        }).catch(error => {
+            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
+        });
+    },
+    inject(name) {
+        customCommandName = name;
+    }
 }
 
 register("tick", () => {
@@ -156,13 +110,20 @@ register("tick", () => {
 
 register("guiMouseClick", (x, y, button, gui, event) => {
     if(Client.getMinecraft().field_71462_r === lastInv && lastInv !== null) {
-        cancel(event)
+        cancel(event);
     }
 });
 
-function help() {
-    const helpMessage = new Message().addTextComponent(new TextComponent(` &a◆ /inventory &8(Hover for usage)&r &7↣Displays the inventory for a player&r`).setHover("show_text", `&einventory [username] (profileName)`))
-    helpMessage.chat()
-}
-
-export { run, help }
+register('guiKey', (char, keyCode, gui, event) => {
+    if (Client.getMinecraft().field_71462_r === lastInv && lastInv !== null) {
+        if (keyCode === Client.getMinecraft().field_71474_y.field_74316_C.func_151463_i()) {
+            cancel(event);
+        } else {
+            Client.getMinecraft().field_71474_y.field_151456_ac.forEach((keybind) => {
+                if (keybind.func_151463_i() === keyCode) {
+                    cancel(event);
+                }
+            })
+        }
+    }
+})

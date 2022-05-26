@@ -1,59 +1,44 @@
-import { getMojang, getGuild, getHypixelPlayer } from "../Modules/requestHandler"
-import { formatRank } from "../Utils/formatRank"
-import { errorHypixelAPI, errorMojangAPI } from "../Modules/errorHandler"
+import { getHypixelGuild, getHypixelPlayer } from '../Modules/APIWrapper/Route';
+import { errorRead } from '../Utils/Utils';
 
-function run(args) {
-    let name = args[0] == undefined ? Player.getName() : args[0]
-    getMojang(name).then(mojang => {
-        getGuild(mojang.body.id).then(guild => {
-            if (guild.body.guild == null) {
-                notInGuild(mojang.body.id, mojang.body.name)
-            } else if (guild.body.guild != null) {
-                let members = guild.body.guild.members
-                let owner = members.filter(member => member.rank === "Guild Master")
-                if (owner.length === 0) {
-                    owner = members.filter(member => member.rank === "GUILDMASTER")
-                }
-                isInGuild(mojang.body.id, owner[0].uuid, guild.body.guild.name)
+let customCommandName = 'ginfo';
+
+module.exports = {
+    name: 'ginfo',
+    execute(args) {
+        let name = args[0] == undefined ? Player.getName() : args[0];
+        getHypixelGuild(name).then(data => {
+            if (data.error) {
+                errorRead(data.text);
+                return
             }
+            if (data.guild.guild == null) {
+                ChatLib.chat("&c&m--------------------&r");
+                ChatLib.chat(`${data.formatedName} &cis not in a Guild!&r`);
+                ChatLib.chat("&c&m--------------------&r");
+                return;
+            }
+            let members = data.guild.guild.members;
+            let owner = members.filter(member => member.rank === "Guild Master");
+            if (owner.length === 0) {
+                owner = members.filter(member => member.rank === "GUILDMASTER");
+            }
+            getHypixelPlayer(owner[0].uuid).then(data2 => {
+                if (data2.error) {
+                    errorRead(data.text);
+                    return;
+                }
+                ChatLib.chat("&c&m--------------------&r");
+                ChatLib.chat(`&bGuild Data for: ${data.formatedName}&r`);
+                ChatLib.chat(`&bGuild: &a${data.guild.guild.name}&r`);
+                ChatLib.chat(`&bGuild Master: ${data2.formatedName}&r`);
+                ChatLib.chat("&c&m--------------------&r");
+            });
         }).catch(error => {
-            errorHypixelAPI(error, "while trying to get guild data")
-        })
-    }).catch(error => {
-        errorMojangAPI(error)
-    })
+            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
+        });
+    },
+    inject(name) {
+        customCommandName = name;
+    }
 }
-
-function notInGuild(useruuid, username) {
-    getHypixelPlayer(useruuid).then(user => {
-        let name = user.body.player == null ? `&7${username}` : formatRank(user.body.player)
-        ChatLib.chat("&c&m--------------------&r")
-        ChatLib.chat(`${name} &cis not in a Guild!&r`)
-        ChatLib.chat("&c&m--------------------&r")
-    }).catch(error => {
-        errorHypixelAPI(error, "while trying to get player data")
-    })
-}
-
-function isInGuild(useruuid, owneruuid, guildname) {
-    getHypixelPlayer(useruuid).then(user => {
-        getHypixelPlayer(owneruuid).then(owner => {
-            ChatLib.chat("&c&m--------------------&r")
-            ChatLib.chat(`&bGuild Data for: ${formatRank(user.body.player)}&r`)
-            ChatLib.chat(`&bGuild: &a${guildname}&r`)
-            ChatLib.chat(`&bGuild Master: ${formatRank(owner.body.player)}&r`)
-            ChatLib.chat("&c&m--------------------&r")
-        }).catch(error => {
-            errorHypixelAPI(error, "while trying to get player data")
-        })
-    }).catch(error => {
-        errorHypixelAPI(error, "while trying to get player data")
-    })
-}
-
-function help() {
-    const helpMessage = new Message().addTextComponent(new TextComponent(` &a◆ /ginfo &8(Hover for usage)&r &7↣Returns guild data for a player`).setHover("show_text", `&eginfo [username]`))
-    helpMessage.chat()
-}
-
-export { run, help }
