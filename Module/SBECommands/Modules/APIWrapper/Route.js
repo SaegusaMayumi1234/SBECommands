@@ -112,11 +112,9 @@ function getProfile(name, profileName, method) {
                 mining: getMining(uuid, selectedProfile),
                 essences: getEssences(uuid, selectedProfile),
                 pets: getPets(uuid, selectedProfile),
-                weight: null,
+                weight: getWeight(selectedProfile.members[uuid], achievements),
                 raw: selectedProfile
             };
-            res.weight = getWeight(selectedProfile.members[uuid], achievements);
-            console.log(JSON.stringify(res.weight))
             return res;
         }).catch(error => {
             return getErrorMessage(error, 'hypixel', 'While trying to get skyblock player data')
