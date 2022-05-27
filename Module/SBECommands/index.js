@@ -52,7 +52,7 @@ register('gameLoad', () => {
 
 const changelogMessage = [
     "&b - Complete recode all feature!",
-    "&b - Now using direct Hypixel API instead of thrid party so it gives much faster respond!",
+    "&b - Now using direct Hypixel API instead of third party so it gives much faster respond!",
     "&b - Added blaze slayer!",
     "&b - Changing Senither weight to LappySheep weight!",
     "&b - Fix unicode on nw command!",
