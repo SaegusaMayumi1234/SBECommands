@@ -179,9 +179,9 @@ function getErrorMessage(error, method, reason) {
             } else if (error.code == 429) {
                 return { error: true, text: `&3[SBEC] &cAn error occured ${reason}! You get rate limited!&r` }
             } else if (error.code >= 500) {
-                return { error: true, text: `&3[SBEC] &cAn error occured ${reason}! This usually because ${method} api is down (code code: ${error.code})&r` }
+                return { error: true, text: `&3[SBEC] &cAn error occured ${reason}! This usually because ${method} api is down (error code: ${error.code})&r` }
             } else {
-                return { error: true, text: `&3[SBEC] &cUnknown error occured ${reason}! (code code: ${error.code})&r` }
+                return { error: true, text: `&3[SBEC] &cUnknown error occured ${reason}! (error code: ${error.code})&r` }
             }
         } else if (error.message !== undefined) {
             return { error: true, text: `&3[SBEC] &cUnknown error occured ${reason}! (${error.message})&r` }
@@ -191,13 +191,13 @@ function getErrorMessage(error, method, reason) {
     } else if (method === 'maro') {
         if (error.code >= 500) {
             if (error.code == 502) {
-                return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! My API currently down, please wait a few moment or contact IcarusPhantom using contact at &e/sbecauthor (code code: ${error.code})&r` }
+                return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! My API currently down, please wait a few moment or contact IcarusPhantom using contact at &e/sbecauthor (error code: ${error.code})&r` }
             } else {
-                return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! This may caused by Maro api has problem in their end (code code: ${error.code})&r` }
+                return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! This may caused by Maro api has problem in their end (error code: ${error.code})&r` }
             }
         } else {
             if (error.code !== undefined) {
-                return { error: true, text: `&3[SBEC] &cUnknown error occured while trying to get networth data! (code code: ${error.code})&r` }
+                return { error: true, text: `&3[SBEC] &cUnknown error occured while trying to get networth data! (error code: ${error.code})&r` }
             } else if (error.message !== undefined) {
                 if (error.message === 'Cannot call method "close" of undefined' || error.message === 'Unexpected token: <' ) {
                     return { error: true, text: `&3[SBEC] &cUnknown error occured while trying to get networth data! (API Side error | This is known issue and unable to fix! You may try rerun the command because sometimes resolved itself)&r` }
