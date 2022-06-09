@@ -1,4 +1,4 @@
-import { save } from '../Modules/presistentData';
+import { save } from '../Modules/PresistentData';
 import { getApiKeyStatus } from '../Modules/APIWrapper/Route';
 import { errorRead } from '../Utils/Utils';
 
