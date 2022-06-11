@@ -2,21 +2,38 @@
 /// <reference lib="es2015" />
 
 import Settings from "./ConfigData/config";
-import Changelog from "../ChangelogLib"
+import Changelog from "../ChangelogLib";
 
 const File = Java.type("java.io.File");
 
 const featuresFile = new File("./config/ChatTriggers/modules/SBECommands/Commands").listFiles().filter(file => file.isFile() && file.getName().endsWith(".js"));
-let helpCommand = null
-const errorCommand = []
+let helpCommand = null;
+const errorCommand = [];
+let registered = false;
 
 register('gameLoad', () => {
-    featuresFile.forEach(file => {
-        let commandName = ''
+    if (registered) return;
+    registerCommand();
+});
+
+const onRenderWorld = register('renderWorld', () => {
+    if (registered) {
+        onRenderWorld.unregister();
+        return;
+    }
+    registerCommand();
+});
+
+
+
+function registerCommand() {
+    registered = true;
+    for (const file of featuresFile) {
+        let commandName = '';
         try {
             const command = require("./Commands/" + file.getName());
             if (file.getName() === 'sbecCommand.js') {
-                helpCommand = command
+                helpCommand = command;
             }
             let allowed = true;
             if (Settings[command.name] !== undefined && !Settings[command.name]) {
@@ -29,7 +46,7 @@ register('gameLoad', () => {
                 command.inject(commandName);
             }
             if (commandName.includes(' ') || commandName !== commandName.toLowerCase()) {
-                ChatLib.chat(`&3[SBEC] &cError while loading command: ${file.getName()} (${commandName}) (custom command should not include uppercase or space)`);;
+                ChatLib.chat(`&3[SBEC] &cError while loading command: ${file.getName()} (${commandName}) (custom command should not include uppercase or space)`);
                 allowed = false;
             }
             if (allowed) {
@@ -37,27 +54,24 @@ register('gameLoad', () => {
                     command.execute(args);
                 }).setName(commandName, true);
             } else {
-                errorCommand.push(command.name)
+                errorCommand.push(command.name);
             }
         } catch(error) {
             ChatLib.chat(`&3[SBEC] &cError while loading command: ${file.getName()} (Report this to modules creator!)`);
             console.log("[SBEC] Error while loading command: " + error.message);
-            errorCommand.push(file.getName().replace('Command.js', ''))
+            errorCommand.push(file.getName().replace('Command.js', ''));
         }
-    })
+    }
     errorCommand.forEach(commandName => {
-        helpCommand.injectDisabled(commandName, false)
-    })
-})
+        helpCommand.injectDisabled(commandName, false);
+    });
+}
 
 const changelogMessage = [
-    "&b - Complete recode all feature!",
-    "&b - Now using direct Hypixel API instead of third party so it gives much faster respond!",
-    "&b - Added blaze slayer!",
-    "&b - Changing Senither weight to LappySheep weight!",
-    "&b - Fix unicode on nw command!",
-    "&b - Change color on help command when the command is disabled/error while loading!"
-]
+    "&b - Fix apikey doesn't save &bproperly!",
+    "&b - Fix some typos!",
+    "&b - Fix commands not registered properly when first install!",
+];
 
-const changelog = new Changelog("SBECommands", "1.0.5", changelogMessage.join('\n'))
-changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"})
+const changelog = new Changelog("SBECommands", "1.0.6", changelogMessage.join('\n'));
+changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
