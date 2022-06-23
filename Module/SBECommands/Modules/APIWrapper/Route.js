@@ -13,15 +13,25 @@ const options = {
     headers: {
         "User-Agent": "Mozilla/5.0 (ChatTriggers)"
     },
-    json: true
+    parseBody: true,
 }
 
 function getHypixelPlayer(name) {
-    return axios.get(`https://api.ashcon.app/mojang/v2/user/${name}`, options)
+    return axios.get(`https://api.ashcon.app/mojang/v2/user/${name}`, {
+        headers: {
+            "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+        },
+        parseBody: true,
+    })
     .then(mojang => {
         name = mojang.data.username;
         const uuid = mojang.data.uuid.replace(/-/g, '');
-        return axios.get(`https://api.hypixel.net/player?key=${get("apikey")}&uuid=${uuid}`, options)
+        return axios.get(`https://api.hypixel.net/player?key=${get("apikey")}&uuid=${uuid}`, {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+            },
+            parseBody: true,
+        })
         .then(player => {
             const formatedName = player.data.player == null ? `&7${name}` : formatRank(player.data.player)
             if (player.data.player == null) {
@@ -48,7 +58,12 @@ function getProfile(name, profileName, method) {
         const uuid = player.uuid;
         let formatedName = player.formatedName
 
-        return axios.get(`https://api.hypixel.net/skyblock/profiles?key=${get("apikey")}&uuid=${uuid}`, options)
+        return axios.get(`https://api.hypixel.net/skyblock/profiles?key=${get("apikey")}&uuid=${uuid}`, {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+            },
+            parseBody: true,
+        })
         .then(skyblock => {
             if (skyblock.data.profiles == null) {
                 return { error: true, text: ['&c&m--------------------&r', `${formatedName} &cdoesn't have any skyblock profiles!&r`, '&c&m--------------------&r']}
@@ -128,7 +143,12 @@ function getHypixelGuild(name) {
         name = player.name;
         const uuid = player.uuid;
         let formatedName = player.formatedName
-        return axios.get(`https://api.hypixel.net/guild?key=${get("apikey")}&player=${uuid}`, options)
+        return axios.get(`https://api.hypixel.net/guild?key=${get("apikey")}&player=${uuid}`, {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+            },
+            parseBody: true,
+        })
         .then(guild => {
             return {
                 name: name,
@@ -143,7 +163,12 @@ function getHypixelGuild(name) {
 }
 
 function getApiKeyStatus(apikey) {
-    return axios.get(`https://api.hypixel.net/key?key=${apikey}`, options)
+    return axios.get(`https://api.hypixel.net/key?key=${apikey}`, {
+        headers: {
+            "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+        },
+        parseBody: true,
+    })
     .then(apikeystatus => {
         return { valid: true };
     }).catch(error => {
@@ -159,7 +184,7 @@ function postNetworthData(data) {
         body: {
             data: data
         },
-        json: true
+        parseBody: true,
     }).then(maro => {
         return maro.data
     }).catch(error => {
