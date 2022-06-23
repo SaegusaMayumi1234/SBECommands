@@ -68,10 +68,8 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Fix apikey doesn't save &bproperly!",
-    "&b - Fix some typos!",
-    "&b - Fix commands not registered properly when first install!",
+    "&b - Attempt to fix axios error and spamming log!",
 ];
 
-const changelog = new Changelog("SBECommands", "1.0.6", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.0.7", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
