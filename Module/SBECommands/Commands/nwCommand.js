@@ -77,7 +77,7 @@ function nwDetails(data2, place) {
             if (place === 'pets') {
                 name = `&7${name.replace("Common ", "&fCommon ").replace("Uncommon ", "&aUncommon ").replace("Rare ", "&9Rare ").replace("Epic ", "&5Epic ").replace("Legendary ", "&6Legendary ").replace("Mythic ", "&dMythic ").trim()}`;
             }
-            hoverMsg.push(name + ` &b- ${addNotation("oneLetters", data2.data.categories[place].top_items[i].price)}`)
+            hoverMsg.push((data2.data.categories[place].top_items[i].count > 1 ? "&7" + data2.data.categories[place].top_items[i].count + "x&r " : "") + name + ` &b- ${addNotation("oneLetters", data2.data.categories[place].top_items[i].price)}`)
         }
     }
     return hoverMsg.join('\n&r')
