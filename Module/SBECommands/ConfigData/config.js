@@ -4,9 +4,17 @@ import { @Vigilant, @TextProperty, @ColorProperty, @ButtonProperty, @SwitchPrope
 class Settings {
     constructor() {
         this.initialize(this);
-        this.setCategoryDescription("A. enable/disable", "You can enable or disable any commands for this modules, &cbut it only take effect after you do '/ct load' but recommended to restarting your minecraft client!")
+        this.setCategoryDescription("A. enable/disable", "You can enable or disable any commands for this module, &cbut it only take effect after you do '/ct load' but recommended to restarting your minecraft client!")
         this.setCategoryDescription("B. custom command", "You can make custom commands for this modules (leave it blank to reset and use default command), &cbut it only take effect after you do '/ct load' but recommended to restarting your minecraft client!")
+        this.setCategoryDescription("C. other", "Some settings for commands or feature in this module")
     }
+
+    @SwitchProperty({
+        name: "Show Stats when party finder join",
+        description: "Show stats when someone join using party finder",
+        category: "C. other",
+    })
+    pfStats = true;
 
     @SwitchProperty({
         name: "calcpet",
@@ -141,6 +149,13 @@ class Settings {
     })
     inventory = true;
 
+    @SwitchProperty({
+        name: "pcheck",
+        description: "",
+        category: "A. enable/disable",
+    })
+    pcheck = true;
+
     //Custom
     @TextProperty({
         name: "calcpet",
@@ -274,6 +289,13 @@ class Settings {
         category: "B. custom command",
     })
     custominventory = '';
+
+    @TextProperty({
+        name: "pcheck",
+        description: "",
+        category: "B. custom command",
+    })
+    custompcheck = '';
 }
 
 export default new Settings;
