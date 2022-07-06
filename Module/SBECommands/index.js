@@ -68,8 +68,11 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Attempt to fix axios error and spamming log!",
+    "&b - Added new pcheck command!",
+    "&b - Added personal vault and equipment to nw command!",
+    "&b - Added item count to nw command!",
+    "&b - Fix spacing on cata command!",
 ];
 
-const changelog = new Changelog("SBECommands", "1.0.7", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.0.8", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
