@@ -32,7 +32,7 @@ module.exports = {
                 }
                 let chat = []
                 chat.push(new Message().addTextComponent(new TextComponent(`${data.formatedName} &c's Networth:&r`)));
-                chat.push(new Message().addTextComponent(new TextComponent(`&d ⦾ &6$${addNotation('commas', (data2.data.purse || 0) + (data2.data.bank || 0) + (data2.data.sacks || 0) + (data2.data.networth || 0))}`)));
+                chat.push(new Message().addTextComponent(new TextComponent(`&d ⦾ &6$${addNotation('commas', (data2.data.networth || 0))}`)));
                 chat.push(new Message().addTextComponent(new TextComponent(`&r`)));
                 chat.push(
                     new Message()
