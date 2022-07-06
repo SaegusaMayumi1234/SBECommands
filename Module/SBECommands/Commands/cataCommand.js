@@ -37,13 +37,13 @@ module.exports = {
             });
             chat.push(new Message().addTextComponent(new TextComponent(`&r`)));
             chat.push(new Message().addTextComponent(new TextComponent(`&b Floor &bCompletions: &7(Hover)&r`).setHover("show_text", getHoverCompletion(data.dungeons?.catacombs?.floors, "&cCompletions:"))));
-            chat.push(new Message().addTextComponent(new TextComponent(`&b Fastest &6S  &bCompletions: &7(Hover)&r`).setHover("show_text", getFastest(data.dungeons?.catacombs?.floors, "&cS:", 's'))));
-            chat.push(new Message().addTextComponent(new TextComponent(`&b Fastest &6S  &bCompletions: &7(Hover)&r`).setHover("show_text", getFastest(data.dungeons?.catacombs?.floors, "&cS+:", 's+'))));
+            chat.push(new Message().addTextComponent(new TextComponent(`&b Fastest &6S &bCompletions: &7(Hover)&r`).setHover("show_text", getFastest(data.dungeons?.catacombs?.floors, "&cS:", 's'))));
+            chat.push(new Message().addTextComponent(new TextComponent(`&b Fastest &6S+ &bCompletions: &7(Hover)&r`).setHover("show_text", getFastest(data.dungeons?.catacombs?.floors, "&cS+:", 's+'))));
             chat.push(new Message().addTextComponent(new TextComponent(`&r`)));
             chat.push(new Message().addTextComponent(new TextComponent(`&4 --Master Mode--&r`)));
             chat.push(new Message().addTextComponent(new TextComponent(`&b Floor &bCompletions: &7(Hover)&r`).setHover("show_text", getHoverCompletion(data.dungeons?.catacombs?.master_mode_floors, "&4Master &cCompletions:"))));
-            chat.push(new Message().addTextComponent(new TextComponent(`&b Fastest &6S  &bCompletions: &7(Hover)&r`).setHover("show_text", getFastest(data.dungeons?.catacombs?.master_mode_floors, "&cS:", 's'))));
-            chat.push(new Message().addTextComponent(new TextComponent(`&b Fastest &6S+  &bCompletions: &7(Hover)&r`).setHover("show_text", getFastest(data.dungeons?.catacombs?.master_mode_floors, "&cS+:", 's+'))));
+            chat.push(new Message().addTextComponent(new TextComponent(`&b Fastest &6S &bCompletions: &7(Hover)&r`).setHover("show_text", getFastest(data.dungeons?.catacombs?.master_mode_floors, "&cS:", 's'))));
+            chat.push(new Message().addTextComponent(new TextComponent(`&b Fastest &6S+ &bCompletions: &7(Hover)&r`).setHover("show_text", getFastest(data.dungeons?.catacombs?.master_mode_floors, "&cS+:", 's+'))));
             chat.push(new Message().addTextComponent(new TextComponent(`&a Total Secrets Found: &e${addNotation("commas", data.dungeons?.secrets_found || 0)}&r`)));
             chat.push(new Message().addTextComponent(new TextComponent(` &8Wither Perks: &7(Hover)&r`).setHover("show_text", getPerk(data.dungeons?.perks))));
             ChatLib.chat("&c&m--------------------&r");
