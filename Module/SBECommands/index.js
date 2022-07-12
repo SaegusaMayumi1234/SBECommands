@@ -24,8 +24,6 @@ const onRenderWorld = register('renderWorld', () => {
     registerCommand();
 });
 
-
-
 function registerCommand() {
     registered = true;
     for (const file of featuresFile) {
@@ -68,11 +66,8 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Added new pcheck command!",
-    "&b - Added personal vault and equipment to nw command!",
-    "&b - Added item count to nw command!",
-    "&b - Fix spacing on cata command!",
+    "&b - Fixed the module requiring requestV2 because I'm dumb!",
 ];
 
-const changelog = new Changelog("SBECommands", "1.0.8", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.0.9", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
