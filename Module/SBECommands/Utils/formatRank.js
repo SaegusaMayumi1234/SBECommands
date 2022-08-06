@@ -1,13 +1,13 @@
 export function formatRank(data) {
     let name = data.displayname
     let rank = "&7"
-    if (data.newPackageRank == "VIP") {
+    if (data.newPackageRank === "VIP") {
         rank = "&a[VIP] "
-    } else if (data.newPackageRank == "VIP_PLUS") {
+    } else if (data.newPackageRank === "VIP_PLUS") {
         rank = "&a[VIP&6+&a] "
-    } else if (data.newPackageRank == "MVP") {
-        rank = "&b[VIP] "
-    } else if (data.newPackageRank == "MVP_PLUS") {
+    } else if (data.newPackageRank === "MVP") {
+        rank = "&b[MVP] "
+    } else if (data.newPackageRank === "MVP_PLUS") {
         if (data.rank === "YOUTUBER") {
             rank = "&c[&fYOUTUBE&c] "
         } else if (data.rank === "ADMIN") {
