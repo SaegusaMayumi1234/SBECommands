@@ -16,7 +16,8 @@ const crsytalToColor = {
 
 const stateToColor = {
     'Not Found': 'c',
-    'Found': 'a'
+    'Found': 'a',
+    'Placed': 'a'
 };
 
 module.exports = {
