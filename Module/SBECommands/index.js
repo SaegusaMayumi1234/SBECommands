@@ -66,8 +66,9 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Fixed the module requiring requestV2 because I'm dumb!",
+    "&b - Fixed placed crystal on sbhotm command!",
+    "&b - Fixed MVP rank showed as VIP!"
 ];
 
-const changelog = new Changelog("SBECommands", "1.0.9", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.1.0", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
