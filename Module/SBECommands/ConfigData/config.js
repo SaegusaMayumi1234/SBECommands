@@ -156,6 +156,13 @@ class Settings {
     })
     pcheck = true;
 
+    @SwitchProperty({
+        name: "trophyfish",
+        description: "",
+        category: "A. enable/disable",
+    })
+    trophyfish = true;
+
     //Custom
     @TextProperty({
         name: "calcpet",
@@ -296,6 +303,13 @@ class Settings {
         category: "B. custom command",
     })
     custompcheck = '';
+
+    @TextProperty({
+        name: "trophyfish",
+        description: "",
+        category: "B. custom command",
+    })
+    customtrophyfish = '';
 }
 
 export default new Settings;

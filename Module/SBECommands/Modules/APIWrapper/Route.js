@@ -19,7 +19,7 @@ const options = {
 function getHypixelPlayer(name) {
     return axios.get(`https://api.ashcon.app/mojang/v2/user/${name}`, {
         headers: {
-            "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+            
         },
         parseBody: true,
     })

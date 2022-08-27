@@ -26,7 +26,8 @@ const commandsName = {
     'targetpractice': 'targetpractice',
     'essence': 'essence',
     'inventory': 'inventory',
-    'pcheck': 'pcheck'
+    'pcheck': 'pcheck',
+    'trophyfish': 'trophyfish'
 };
 
 const enableCommandsName = {
@@ -54,6 +55,7 @@ const enableCommandsName = {
     'essence': true,
     'inventory': true,
     'pcheck': true,
+    'trophyfish': true
 };
 
 Object.keys(commandsName).forEach(command => {
@@ -90,6 +92,7 @@ module.exports = {
         chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['essence'] ? 'a' : 'c'}◆ /${commandsName['essence']} &8(Hover for usage)&r &7↣Returns a player's dungeon essence values.&r`).setHover("show_text", `&e${commandsName['essence']} [username] (profileName)`)));
         chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['inventory'] ? 'a' : 'c'}◆ /${commandsName['inventory']} &8(Hover for usage)&r &7↣Displays the inventory for a player&r`).setHover("show_text", `&e${commandsName['inventory']} [username] (profileName)`)));
         chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['pcheck'] ? 'a' : 'c'}◆ /${commandsName['pcheck']} &8(Hover for usage)&r &7↣Returns information on party&r`).setHover("show_text", `&e${commandsName['pcheck']}`)));
+        chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['trophyfish'] ? 'a' : 'c'}◆ /${commandsName['trophyfish']} &8(Hover for usage)&r &7↣Returns information on trophy fish loot&r`).setHover("show_text", `&e${commandsName['trophyfish']} [username] (profileName)`)));
         ChatLib.chat(`&c&m--------------&c[ &dSBECommands &c]&r&c&m--------------&r`);
         chat.forEach(item => {
             item.chat();
