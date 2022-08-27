@@ -10,6 +10,7 @@ exports.getEssences = function getEssences(uuid, profileData) {
         ice: profile.essence_ice || 0,
         spider: profile.essence_spider || 0,
         diamond: profile.essence_diamond || 0,
-        gold: profile.essence_gold || 0
+        gold: profile.essence_gold || 0,
+        crimson: profile.essence_crimson || 0
     }
 }
