@@ -38,7 +38,7 @@ exports.getSkills = function getSkills(uuid, profile, player) {
 			social: 0,
 		};
 	}
-
+ 
 	const res = {
 		apiEnabled: totalExp == 0 ? false : true,
 		average_skills: null,
@@ -127,7 +127,8 @@ function getAverageSkills(skills) {
             skills.fishing.level +
             skills.enchanting.level +
             skills.alchemy.level +
-            skills.taming.level
-		) / 8
+            skills.taming.level +
+			skills.carpentry.level
+		) / 9
 	);
 }
