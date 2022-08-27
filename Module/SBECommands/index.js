@@ -66,9 +66,12 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Fixed placed crystal on sbhotm command!",
-    "&b - Fixed MVP rank showed as VIP!"
+    "&b - Added carpentry to player and sbskills command!",
+    "&b - Added crimson essence to essence command!",
+    "&b - Added equipment to inventory command!",
+    "&b - Make inventory command can be executed even API inventory disabled!",
+    "&b - Added trophyfish command!"
 ];
 
-const changelog = new Changelog("SBECommands", "1.1.0", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.1.1", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
