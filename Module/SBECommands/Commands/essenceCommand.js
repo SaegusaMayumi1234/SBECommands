@@ -11,7 +11,8 @@ const essToColor = {
     'ice': 'b',
     'spider': '6',
     'diamond': '3',
-    'gold': 'e'
+    'gold': 'e',
+    'crimson': 'c'
 }
 
 module.exports = {
