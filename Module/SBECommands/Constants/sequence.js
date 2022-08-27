@@ -14,7 +14,8 @@ export const skillSequence = [
     "fishing",
     "enchanting",
     "alchemy",
-    "taming"
+    "taming",
+    "carpentry"
 ];
 
 export const classSequence = [
