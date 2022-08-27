@@ -45,5 +45,6 @@ export const essSequence = [
     'ice',
     'spider',
     'diamond',
-    'gold'
+    'gold',
+    'crimson'
 ]
