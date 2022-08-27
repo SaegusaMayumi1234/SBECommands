@@ -26,47 +26,39 @@ module.exports = {
                 return;
             }
 
-            if (data.raw.members[data.uuid].inv_contents == null) {
-                ChatLib.chat("&c&m--------------------&r");
-                ChatLib.chat(`&3[SBEC] &cInventory API is not enabled for: ${data.formatedName}&r`);
-                ChatLib.chat("&c&m--------------------&r");
-                return;
+            if (data.raw.members[data.uuid].inv_contents === undefined) {
+                ChatLib.chat(`&3[SBEC] &cPlayer does not have their inventory api on!&r`);
             }
-
-            let invContents = data.raw.members[data.uuid].inv_contents.data;
-            let bytearray = java.util.Base64.getDecoder().decode(invContents);
-            let inputstream = new java.io.ByteArrayInputStream(bytearray);                                
-            let nbt = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream); //CompressedStreamTools.readCompressed()                            
-            let items = nbt.func_150295_c("i", 10); //NBTTagCompound.getTagList()
-            let length = items.func_74745_c(); //NBTTagList.tagCount()
 
             let inv = new InventoryBasic(data.name + "'s Inventory", true, 54);
 
-            for (let i = 0; i < length; i++) {                                    
-                let item = items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
-                
-                if(!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
-                    let itemstack = new ItemStack(net.minecraft.init.Blocks.field_150350_a); //Blocks.air
-                    itemstack.func_77963_c(item); //ItemStack.readFromNBT()
-                    let slot = i < 9 ? i + 45 : i + 9; //Move hotbar slots to bottom
-                    inv.func_70299_a(slot, itemstack); //InventoryBasic.setInventorySlotContents()
+            if (data.raw.members[data.uuid].inv_contents !== undefined) {
+                let { items, length } = decodeNBTData(data.raw.members[data.uuid].inv_contents.data)
+
+                for (let i = 0; i < length; i++) {                                    
+                    let item = items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
+                    
+                    if(!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
+                        let itemstack = new ItemStack(net.minecraft.init.Blocks.field_150350_a); //Blocks.air
+                        itemstack.func_77963_c(item); //ItemStack.readFromNBT()
+                        let slot = i < 9 ? i + 45 : i + 9; //Move hotbar slots to bottom
+                        inv.func_70299_a(slot, itemstack); //InventoryBasic.setInventorySlotContents()
+                    }
+                }
+            } else {
+                for (let i = 18; i < 54; i++){                                    
+                    let itemstack = new ItemStack(MCItem.func_150899_d(166), 1, 0).func_151001_c("§cAPI DISABLED"); //Blocks.barrier
+                    let slot = i
+                    inv.func_70299_a(slot, itemstack);
                 }
             }
 
-            let invArmorContents = data.raw.members[data.uuid].inv_armor.data;
-            let bytearray2 = java.util.Base64.getDecoder().decode(invArmorContents);
-            let inputstream2 = new java.io.ByteArrayInputStream(bytearray2);                                
-            let nbt2 = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream2); //CompressedStreamTools.readCompressed()                            
-            let items2 = nbt2.func_150295_c("i", 10); //NBTTagCompound.getTagList()
-            let length2 = items2.func_74745_c(); //NBTTagList.tagCount()
-            
-            for (let i = 0; i < length2; i++) {                                    
-                let item = items2.func_150305_b(i); //NBTTagList.getCompoundTagAt()
-                if (!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
-                    let itemstack = new ItemStack(net.minecraft.init.Blocks.field_150350_a); //Blocks.stainedGlass
-                    itemstack.func_77963_c(item); //ItemStack.readFromNBT()
-                    
-                    let slot = i //Move hotbar slots to bottom
+            if (data.raw.members[data.uuid].inv_armor !== undefined) {
+                let { items, length } = decodeNBTData(data.raw.members[data.uuid].inv_armor.data)
+                
+                for (let i = 0; i < length; i++) {                                    
+                    let item = items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
+                    let slot = i
                     if (slot == 0) {
                         slot = 7;
                     } else if (slot == 1) {
@@ -76,14 +68,53 @@ module.exports = {
                     } else if (slot == 3) {
                         slot = 1;
                     }
-                    inv.func_70299_a(slot, itemstack); //InventoryBasic.setInventorySlotContents()
+                    if (!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
+                        let itemstack = new ItemStack(net.minecraft.init.Blocks.field_150350_a); //Blocks.stainedGlass
+                        itemstack.func_77963_c(item); //ItemStack.readFromNBT()
+                        inv.func_70299_a(slot, itemstack); //InventoryBasic.setInventorySlotContents()
+                    }
                 }
+            } else {
+                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(""); //Blocks.stainedGlass
+                inv.func_70299_a(1, itemstack);
+                inv.func_70299_a(3, itemstack);
+                inv.func_70299_a(5, itemstack);
+                inv.func_70299_a(7, itemstack);
             }
 
+            if (data.raw.members[data.uuid].equippment_contents !== undefined) {
+                let { items, length } = decodeNBTData(data.raw.members[data.uuid].equippment_contents.data)
+                
+                for (let i = 0; i < length; i++) {                                    
+                    let item = items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
+                    let slot = i
+                    if (slot == 0) {
+                        slot = 11;
+                    } else if (slot == 1) {
+                        slot = 12;
+                    } else if (slot == 2) {
+                        slot = 14;
+                    } else if (slot == 3) {
+                        slot = 15;
+                    }
+                    if (!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
+                        let itemstack = new ItemStack(net.minecraft.init.Blocks.field_150350_a); //Blocks.stainedGlass
+                        itemstack.func_77963_c(item); //ItemStack.readFromNBT()
+                        inv.func_70299_a(slot, itemstack); //InventoryBasic.setInventorySlotContents()
+                    }
+                }
+            } else {
+                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(""); //Blocks.stainedGlass
+                inv.func_70299_a(11, itemstack);
+                inv.func_70299_a(12, itemstack);
+                inv.func_70299_a(14, itemstack);
+                inv.func_70299_a(15, itemstack);
+            }
+            
             for (let i = 0; i < 18; i++){                                    
                 let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(""); //Blocks.stainedGlass
-                let slot = i //Move hotbar slots to bottom
-                if (slot != 1 && slot != 3 && slot != 5 && slot != 7 ) {
+                let slot = i
+                if (slot != 1 && slot != 3 && slot != 5 && slot != 7 && slot != 11 && slot != 12 && slot != 14 && slot != 15) {
                     inv.func_70299_a(slot, itemstack);
                 }
             }
@@ -127,3 +158,16 @@ register('guiKey', (char, keyCode, gui, event) => {
         }
     }
 })
+
+function decodeNBTData(data) {
+    let contents = data;
+    let bytearray = java.util.Base64.getDecoder().decode(contents);
+    let inputstream = new java.io.ByteArrayInputStream(bytearray);                                
+    let nbt = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream); //CompressedStreamTools.readCompressed()                            
+    let items = nbt.func_150295_c("i", 10); //NBTTagCompound.getTagList()
+    let length = items.func_74745_c(); //NBTTagList.tagCount()
+    return {
+        items,
+        length
+    }
+}
