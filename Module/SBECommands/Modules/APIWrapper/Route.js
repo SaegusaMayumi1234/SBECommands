@@ -8,6 +8,7 @@ import { getMining } from './Stats/Mining';
 import { getEssences } from './Stats/Essences';
 import { getPets } from './Stats/Pets';
 import { getWeight } from './Stats/Weight';
+const metadata = JSON.parse(FileLib.read('SBECommands', 'metadata.json'));
 
 const options = {
     headers: {
@@ -177,18 +178,20 @@ function getApiKeyStatus(apikey) {
 }
 
 function postNetworthData(data) {
-    return axios.post('https://IcarusPhantom-API.saegusamayumi.repl.co/api/networth/categories', {
+    return axios.post('https://icarusphantom.dev/api/networth/categories', {
         headers: {
             "User-Agent": "Mozilla/5.0 (ChatTriggers)"
         },
         body: {
-            data: data
+            uuid: Player.getUUID(),
+            version: metadata.version,
+            data: data,
         },
         parseBody: true,
-    }).then(maro => {
-        return maro.data
+    }).then(networth => {
+        return networth.data
     }).catch(error => {
-        return getErrorMessage(error, 'maro')
+        return getErrorMessage(error, 'networth')
     })
 }
 
@@ -197,11 +200,11 @@ export { getHypixelPlayer, getProfile, getHypixelGuild, getApiKeyStatus, postNet
 function getErrorMessage(error, method, reason) {
     if (method === 'hypixel' || method === 'mojang') {
         if (error.code) {
-            if ((error.code == 403 || error.code == 400) && method === 'hypixel') {
+            if ((error.code === 403 || error.code === 400) && method === 'hypixel') {
                 return { error: true, text: "&3[SBEC] &cInvalid API Key. Please insert your valid Hypixel API Key using /sbecsetkey [key]&r" }
-            } else if (error.code == 404 && method === 'mojang') {
+            } else if (error.code === 404 && method === 'mojang') {
                 return { error: true, text: "&3[SBEC] &cInvalid Username!&r" }
-            } else if (error.code == 429) {
+            } else if (error.code === 429) {
                 return { error: true, text: `&3[SBEC] &cAn error occured ${reason}! You get rate limited!&r` }
             } else if (error.code >= 500) {
                 return { error: true, text: `&3[SBEC] &cAn error occured ${reason}! This usually because ${method} api is down (error code: ${error.code})&r` }
@@ -213,13 +216,15 @@ function getErrorMessage(error, method, reason) {
         } else {
             return { error: true, text: `&3[SBEC] &cUnknown error occured ${reason}!&r` }
         }
-    } else if (method === 'maro') {
+    } else if (method === 'networth') {
         if (error.code >= 500) {
-            if (error.code == 502) {
-                return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! My API currently down, please wait a few moment or contact IcarusPhantom using contact at &e/sbecauthor (error code: ${error.code})&r` }
+            if (error.code === 502) {
+                return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! My API currently down, please wait a few moment or contact IcarusPhantom using contact at &e/sbecauthor &c(error code: ${error.code})&r` }
             } else {
                 return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! This may caused by Maro api has problem in their end (error code: ${error.code})&r` }
             }
+        } else if (error.code === 400) {
+            return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! ${error.response.data.cause}&r` }
         } else {
             if (error.code !== undefined) {
                 return { error: true, text: `&3[SBEC] &cUnknown error occured while trying to get networth data! (error code: ${error.code})&r` }
