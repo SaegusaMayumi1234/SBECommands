@@ -32,10 +32,11 @@ export const nwSequence = [
     'enderchest',
     'armor',
     'equipment',
-    'wardrobe_inventory',
+    'wardrobe',
     'pets',
-    'talismans',
-    'personal_vault'
+    'accessories',
+    'personal_vault',
+    'sacks'
 ];
 
 export const essSequence = [
