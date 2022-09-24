@@ -221,7 +221,7 @@ function getErrorMessage(error, method, reason) {
             if (error.code === 502) {
                 return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! My API currently down, please wait a few moment or contact IcarusPhantom using contact at &e/sbecauthor &c(error code: ${error.code})&r` }
             } else {
-                return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! This may caused by Maro api has problem in their end (error code: ${error.code})&r` }
+                return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! This may caused by my api has problem in their end (error code: ${error.code})&r` }
             }
         } else if (error.code === 400) {
             return { error: true, text: `&3[SBEC] &cAn error occured while trying to get networth data! ${error.response.data.cause}&r` }
