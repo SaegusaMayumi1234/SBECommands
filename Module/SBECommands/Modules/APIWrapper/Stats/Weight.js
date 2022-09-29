@@ -181,19 +181,7 @@ const getDungeonExpWeight = cataXP => {
 
 //skillWeight
 const effectiveXP = (xp, factor) => {
-    if (xp < skillMaxXP)
-        return xp;
-    else {
-        let remainingXP = xp;
-        let z = 0;
-        for (let i = 0; i <= Math.trunc(xp / skillMaxXP); i++) {
-            if (remainingXP >= skillMaxXP) {
-                remainingXP -= skillMaxXP;
-                z += (factor ** i);
-            }
-        }
-        return (z * skillMaxXP);
-    }
+    return Math.pow(xp, factor)
 };
 
 const getSkillWeight = (skillLevels, skillXP) => {
@@ -277,7 +265,7 @@ const getSlayerWeight = slayerXP => {
     const enderman = getSlayerValue(slayerXP[3], 3);
     const blaze = getSlayerValue(slayerXP[4], 4)
 
-    const individual = zombie / 8390.64 + spider / 7019.57 + wolf / 2982.06 + enderman / 1118.81 + blaze / 751.281;
+    const individual = zombie / 9250 + spider / 7019.57 + wolf / 2982.06 + enderman / 996.3003 + blaze / 935.0455;
     const extra = (slayerXP[0] + 1.6 * slayerXP[1] + 3.6 * slayerXP[2] + 10 * slayerXP[3] + 15 * slayerXP[4]) / 1000000;
     return 2 * (individual + extra);
 };
