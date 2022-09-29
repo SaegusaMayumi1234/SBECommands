@@ -83,18 +83,12 @@ function getProfile(name, profileName, method) {
             let selectedProfile = null
             if (profileName !== 'last save') {
                 profiles.forEach(profileData => {
-                    if (profileData.cute_name.toLowerCase() === profileName.toLowerCase() && profileData.members[uuid].last_save !== undefined) {
+                    if (profileData.cute_name.toLowerCase() === profileName.toLowerCase()) {
                         selectedProfile = profileData
                     }
                 })
             } else {
-                let tempProfiles = []
-                profiles.forEach(profileData => {
-                    if (profileData.members[uuid].last_save !== undefined) {
-                        tempProfiles.push(profileData)
-                    }
-                })
-                selectedProfile = tempProfiles.sort((a, b) => b.members[uuid].last_save - a.members[uuid].last_save)[0]
+                selectedProfile = profiles.filter((ele) => ele.selected)[0]
             }
             if (selectedProfile == null) {
                 return { error: true, text: ['&c&m--------------------&r', `${formatedName} &cdoesn't have any skyblock profile named '${profileName}'!&r`, '&c&m--------------------&r'] }
