@@ -16,8 +16,7 @@ module.exports = {
             chat.push(new Message().addTextComponent(new TextComponent(`&bProfiles for: ${data.formatedName}&r`)));
             chat.push(new Message().addTextComponent(new TextComponent(`&r`)))
             data.raw.profiles.forEach(profile => {
-                chat.push(new Message().addTextComponent(new TextComponent(`&b${profile.cute_name}: &e~${humanizeTime(new Date().getTime() - profile.members[data.uuid].last_save)}&r`)));
-                chat.push(new Message().addTextComponent(new TextComponent(`&7${timestampToDate(profile.members[data.uuid].last_save)}&r`)));
+                chat.push(new Message().addTextComponent(new TextComponent(`&b${profile.cute_name}: ${profile.selected ? '&aSelected' : '&cNot Selected'}&r`)));
             })
             ChatLib.chat("&c&m--------------------&r")
             chat.forEach(msg => {
