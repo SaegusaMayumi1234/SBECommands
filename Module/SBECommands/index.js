@@ -66,9 +66,8 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Fixed no last save profile!",
-    "&b - Updated lily weight calculation!",
+    "&b - Fixed sbprofiles command!",
 ];
 
-const changelog = new Changelog("SBECommands", "1.1.3", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.1.4", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
