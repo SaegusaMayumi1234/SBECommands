@@ -66,8 +66,10 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Fixed sbprofiles command!",
+    "&b - Fixed minor typo in nw command!",
+    "&b - Fixed addNotation not simplified decimal!",
+    "&b - Colorize sacks item in nw command!"
 ];
 
-const changelog = new Changelog("SBECommands", "1.1.4", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.1.5", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
