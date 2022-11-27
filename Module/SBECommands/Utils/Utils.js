@@ -35,6 +35,9 @@ module.exports = {
                     checkNum *= 10;
                 }
             }
+	    if (typeof returnVal === 'number' && returnVal % 1 !== 0) {
+                returnVal = returnVal.toFixed(2);
+            }
         } else {
             let x = value.toFixed(0)
             if (x === undefined) { return "" }
