@@ -36,7 +36,11 @@ export const nwSequence = [
     'pets',
     'accessories',
     'personal_vault',
-    'sacks'
+    'sacks',
+    'essence',
+    'fishing_bag',
+    'potion_bag',
+    'candy_inventory'
 ];
 
 export const essSequence = [
