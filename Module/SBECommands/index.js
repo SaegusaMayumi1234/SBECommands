@@ -66,10 +66,9 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Fixed minor typo in nw command!",
-    "&b - Fixed addNotation not simplified decimal!",
-    "&b - Colorize sacks item in nw command!"
+    "&b - Added new category in nw &bcommand!",
+    "&b - Backup Aschon using mojang API to reduce rate limit!",
 ];
 
-const changelog = new Changelog("SBECommands", "1.1.5", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.1.6", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
