@@ -42,7 +42,6 @@ function getMojang(name) {
         },
         parseBody: true,
     }).then(aschon => {
-        console.log(JSON.stringify(aschon.data));
         return {
             name: aschon.data.username,
             uuid: aschon.data.uuid.replace(/-/g, '')
@@ -66,7 +65,6 @@ function getMojang(name) {
                 if (mojang.status === 204) {
                     return { error: true, text: "&3[SBEC] &cInvalid Username!&r"};
                 }
-                console.log(JSON.stringify(mojang.data));
                 return {
                     name: mojang.data.name,
                     uuid: mojang.data.id,
