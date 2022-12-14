@@ -10,6 +10,24 @@ import { getPets } from './Stats/Pets';
 import { getWeight } from './Stats/Weight';
 const metadata = JSON.parse(FileLib.read('SBECommands', 'metadata.json'));
 
+const usernameRegex = /^[0-9A-Za-z_]{1,16}$/i;
+const uuidRegex =
+    /^([0-9a-f]{8})(?:-|)([0-9a-f]{4})(?:-|)(4[0-9a-f]{3})(?:-|)([0-9a-f]{4})(?:-|)([0-9a-f]{12})$/i;
+
+function addDashedtoUUID(uuid) {
+    return `${uuid.substr(0, 8)}-${uuid.substr(8, 4)}-${uuid.substr(12, 4)}-${uuid.substr(16, 4)}-${uuid.substr(20)}`;
+}
+
+function isUsername(user) {
+    return usernameRegex.test(user);
+}
+    
+function isUUID(user) {
+    if (uuidRegex.test(user)) return true;
+    const dashedUUID = addDashedtoUUID(user);
+    return uuidRegex.test(dashedUUID);
+}
+
 const options = {
     headers: {
         "User-Agent": "Mozilla/5.0 (ChatTriggers)"
@@ -17,16 +35,55 @@ const options = {
     parseBody: true,
 }
 
-function getHypixelPlayer(name) {
+function getMojang(name) {
     return axios.get(`https://api.ashcon.app/mojang/v2/user/${name}`, {
         headers: {
             "User-Agent": "Mozilla/5.0 (ChatTriggers)"
         },
         parseBody: true,
+    }).then(aschon => {
+        console.log(JSON.stringify(aschon.data));
+        return {
+            name: aschon.data.username,
+            uuid: aschon.data.uuid.replace(/-/g, '')
+        }
+    }).catch(error => {
+        if (error.code === 429) {
+            let mojangURL;
+            if (isUsername(name)) {
+                mojangURL = `https://api.mojang.com/users/profiles/minecraft/${name}`;
+            } else if (isUUID(name)) {
+                mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${name}?unsigned=false`;
+            } else {
+                return { error: true, text: "&3[SBEC] &cInvalid Username!&r" };
+            }
+            return axios.get(mojangURL, {
+                headers: {
+                    "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+                },
+                parseBody: true,
+            }).then(mojang => {
+                if (mojang.status === 204) {
+                    return { error: true, text: "&3[SBEC] &cInvalid Username!&r"};
+                }
+                console.log(JSON.stringify(mojang.data));
+                return {
+                    name: mojang.data.name,
+                    uuid: mojang.data.id,
+                };
+            }).catch(error => {
+                return getErrorMessage(error, 'mojang', 'While trying to get uuid');
+            })
+        }
     })
-    .then(mojang => {
-        name = mojang.data.username;
-        const uuid = mojang.data.uuid.replace(/-/g, '');
+}
+
+function getHypixelPlayer(name) {
+    return getMojang(name).then(mojang => {
+        if (mojang.error) return mojang;
+        console.log(JSON.stringify(mojang));
+        name = mojang.name;
+        const uuid = mojang.uuid;
         return axios.get(`https://api.hypixel.net/player?key=${get("apikey")}&uuid=${uuid}`, {
             headers: {
                 "User-Agent": "Mozilla/5.0 (ChatTriggers)"
@@ -34,30 +91,30 @@ function getHypixelPlayer(name) {
             parseBody: true,
         })
         .then(player => {
-            const formatedName = player.data.player == null ? `&7${name}` : formatRank(player.data.player)
+            const formatedName = player.data.player == null ? `&7${name}` : formatRank(player.data.player);
             if (player.data.player == null) {
-                return { error: true, text: `&3[SBEC] ${formatedName} &cHasn't joined Hypixel!&r` }
+                return { error: true, text: `&3[SBEC] ${formatedName} &cHasn't joined Hypixel!&r` };
             }
             return {
                 name: name,
                 uuid: uuid,
                 formatedName: formatedName,
                 raw: player.data.player
-            }
+            };
         }).catch(error => {
-            return getErrorMessage(error, 'hypixel', 'While trying to get hypixel player data')
+            return getErrorMessage(error, 'hypixel', 'While trying to get hypixel player data');
         })
     }).catch(error => {
-        return getErrorMessage(error, 'mojang', 'While trying to get uuid')
+        return getErrorMessage(error, 'mojang', 'While trying to get uuid');
     });
 }
 
 function getProfile(name, profileName, method) {
     return getHypixelPlayer(name).then(player => {
-        if (player.error) return player
+        if (player.error) return player;
         name = player.name;
         const uuid = player.uuid;
-        let formatedName = player.formatedName
+        let formatedName = player.formatedName;
 
         return axios.get(`https://api.hypixel.net/skyblock/profiles?key=${get("apikey")}&uuid=${uuid}`, {
             headers: {
@@ -67,7 +124,7 @@ function getProfile(name, profileName, method) {
         })
         .then(skyblock => {
             if (skyblock.data.profiles == null) {
-                return { error: true, text: ['&c&m--------------------&r', `${formatedName} &cdoesn't have any skyblock profiles!&r`, '&c&m--------------------&r']}
+                return { error: true, text: ['&c&m--------------------&r', `${formatedName} &cdoesn't have any skyblock profiles!&r`, '&c&m--------------------&r']};
             }
             if (method === 'all') {
                 return {
@@ -79,19 +136,19 @@ function getProfile(name, profileName, method) {
                     }
                 };
             }
-            let profiles = skyblock.data.profiles
-            let selectedProfile = null
+            let profiles = skyblock.data.profiles;
+            let selectedProfile = null;
             if (profileName !== 'last save') {
                 profiles.forEach(profileData => {
                     if (profileData.cute_name.toLowerCase() === profileName.toLowerCase()) {
-                        selectedProfile = profileData
+                        selectedProfile = profileData;
                     }
                 })
             } else {
-                selectedProfile = profiles.filter((ele) => ele.selected)[0]
+                selectedProfile = profiles.filter((ele) => ele.selected)[0];
             }
             if (selectedProfile == null) {
-                return { error: true, text: ['&c&m--------------------&r', `${formatedName} &cdoesn't have any skyblock profile named '${profileName}'!&r`, '&c&m--------------------&r'] }
+                return { error: true, text: ['&c&m--------------------&r', `${formatedName} &cdoesn't have any skyblock profile named '${profileName}'!&r`, '&c&m--------------------&r'] };
             }
 
             const achievements = player.raw.achievements;
@@ -127,17 +184,17 @@ function getProfile(name, profileName, method) {
             };
             return res;
         }).catch(error => {
-            return getErrorMessage(error, 'hypixel', 'While trying to get skyblock player data')
+            return getErrorMessage(error, 'hypixel', 'While trying to get skyblock player data');
         })
     })
 }
 
 function getHypixelGuild(name) {
     return getHypixelPlayer(name).then(player => {
-        if (player.error) return player
+        if (player.error) return player;
         name = player.name;
         const uuid = player.uuid;
-        let formatedName = player.formatedName
+        let formatedName = player.formatedName;
         return axios.get(`https://api.hypixel.net/guild?key=${get("apikey")}&player=${uuid}`, {
             headers: {
                 "User-Agent": "Mozilla/5.0 (ChatTriggers)"
@@ -152,8 +209,8 @@ function getHypixelGuild(name) {
                 guild: guild.data
             };
         }).catch(error => {
-            return getErrorMessage(error, 'hypixel', 'While trying to get hypixel guild data')
-        })
+            return getErrorMessage(error, 'hypixel', 'While trying to get hypixel guild data');
+        });
     })
 }
 
@@ -167,7 +224,7 @@ function getApiKeyStatus(apikey) {
     .then(apikeystatus => {
         return { valid: true };
     }).catch(error => {
-        return getErrorMessage(error, 'while trying to get api key status')
+        return getErrorMessage(error, 'while trying to get api key status');
     });
 }
 
@@ -183,20 +240,20 @@ function postNetworthData(data) {
         },
         parseBody: true,
     }).then(networth => {
-        return networth.data
+        return networth.data;
     }).catch(error => {
-        return getErrorMessage(error, 'networth')
+        return getErrorMessage(error, 'networth');
     })
 }
 
-export { getHypixelPlayer, getProfile, getHypixelGuild, getApiKeyStatus, postNetworthData }
+export { getHypixelPlayer, getProfile, getHypixelGuild, getApiKeyStatus, postNetworthData };
 
 function getErrorMessage(error, method, reason) {
     if (method === 'hypixel' || method === 'mojang') {
         if (error.code) {
             if ((error.code === 403 || error.code === 400) && method === 'hypixel') {
                 return { error: true, text: "&3[SBEC] &cInvalid API Key. Please insert your valid Hypixel API Key using /sbecsetkey [key]&r" }
-            } else if (error.code === 404 && method === 'mojang') {
+            } else if ((error.code === 404 || error.code === 400) && method === 'mojang') {
                 return { error: true, text: "&3[SBEC] &cInvalid Username!&r" }
             } else if (error.code === 429) {
                 return { error: true, text: `&3[SBEC] &cAn error occured ${reason}! You get rate limited!&r` }
