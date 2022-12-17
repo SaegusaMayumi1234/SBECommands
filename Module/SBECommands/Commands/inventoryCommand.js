@@ -1,5 +1,5 @@
 import { getProfile } from '../Modules/APIWrapper/Route';
-import { errorRead } from '../Utils/Utils';
+import { errorRead, decodeNBTData } from '../Utils/Utils';
 
 let customCommandName = 'invetory';
 
@@ -158,16 +158,3 @@ register('guiKey', (char, keyCode, gui, event) => {
         }
     }
 })
-
-function decodeNBTData(data) {
-    let contents = data;
-    let bytearray = java.util.Base64.getDecoder().decode(contents);
-    let inputstream = new java.io.ByteArrayInputStream(bytearray);                                
-    let nbt = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream); //CompressedStreamTools.readCompressed()                            
-    let items = nbt.func_150295_c("i", 10); //NBTTagCompound.getTagList()
-    let length = items.func_74745_c(); //NBTTagList.tagCount()
-    return {
-        items,
-        length
-    }
-}
