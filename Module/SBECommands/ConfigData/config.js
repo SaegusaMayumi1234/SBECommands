@@ -11,10 +11,17 @@ class Settings {
 
     @SwitchProperty({
         name: "Show Stats when party finder join",
-        description: "Show stats when someone join using party finder",
+        description: "Show stats when someone join using kuudra and dungeon party finder",
         category: "C. other",
     })
     pfStats = true;
+
+    @SwitchProperty({
+        name: "Search items in backpacks and enderchest",
+        description: "When showing stats using the pcheck command or party finder join, will search items not only in inventory but also in backpacks and enderchest.",
+        category: "C. other",
+    })
+    deepScan = false;
 
     @SwitchProperty({
         name: "calcpet",
