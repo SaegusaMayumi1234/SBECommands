@@ -169,5 +169,17 @@ module.exports = {
         const months = (time.getMonth() + 1).toString().length == 1 ? `0${time.getMonth() + 1}` : time.getMonth() + 1
         const years = time.getFullYear().toString()
         return `${months}-${days}-${years} ${hours}:${minutes}:${seconds}`
+    },
+    decodeNBTData: function decodeNBTData(data) {
+        let contents = data;
+        let bytearray = java.util.Base64.getDecoder().decode(contents);
+        let inputstream = new java.io.ByteArrayInputStream(bytearray);                                
+        let nbt = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream); //CompressedStreamTools.readCompressed()                            
+        let items = nbt.func_150295_c("i", 10); //NBTTagCompound.getTagList()
+        let length = items.func_74745_c(); //NBTTagList.tagCount()
+        return {
+            items,
+            length
+        }
     }
 }
