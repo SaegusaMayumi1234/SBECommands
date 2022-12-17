@@ -66,9 +66,11 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Added new category in nw &bcommand!",
-    "&b - Backup Aschon using mojang API to reduce rate limit!",
+    "&b - Fixed pcheck not running when someone join from party &bfinder!",
+    "&b - Added pcheck for kuudra party finder! (will select &bautomatically)",
+    "&b - Added some more items list in pcheck command!",
+    "&b - Added option to also scan backpack and enderchest for pcheck!",
 ];
 
-const changelog = new Changelog("SBECommands", "1.1.6", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.1.7", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
