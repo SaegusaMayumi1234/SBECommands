@@ -156,7 +156,7 @@ function getData(name, profileArg, method) {
                 let item = invContents.items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
                 if (!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
                     let nbtTagItem = new NBTTagCompound(item).toObject();
-                    if (allowedWeaponID.includes(nbtTagItem.tag.ExtraAttributes.id)) {
+                    if (allowedWeaponID.includes(nbtTagItem?.tag?.ExtraAttributes?.id)) {
                         chat.push(new Message().addTextComponent(new TextComponent(` ${nbtTagItem.tag.display.Name}`).setHover("show_text", `${nbtTagItem.tag.display.Name}\n${nbtTagItem.tag.display.Lore.join('\n')}`)));
                     }
                 }
@@ -168,7 +168,7 @@ function getData(name, profileArg, method) {
                         let item = enderChestContents.items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
                         if (!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
                             let nbtTagItem = new NBTTagCompound(item).toObject();
-                            if (allowedWeaponID.includes(nbtTagItem.tag.ExtraAttributes.id)) {
+                            if (allowedWeaponID.includes(nbtTagItem?.tag?.ExtraAttributes?.id)) {
                                 chat.push(new Message().addTextComponent(new TextComponent(` ${nbtTagItem.tag.display.Name}`).setHover("show_text", `${nbtTagItem.tag.display.Name}\n${nbtTagItem.tag.display.Lore.join('\n')}`)));
                             }
                         }
@@ -182,7 +182,7 @@ function getData(name, profileArg, method) {
                             let item = backpackContents.items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
                             if (!item.func_82582_d()) { //NBTTagCompound.hasNoTags()
                                 let nbtTagItem = new NBTTagCompound(item).toObject();
-                                if (allowedWeaponID.includes(nbtTagItem.tag.ExtraAttributes.id)) {
+                                if (allowedWeaponID.includes(nbtTagItem?.tag?.ExtraAttributes?.id)) {
                                     chat.push(new Message().addTextComponent(new TextComponent(` ${nbtTagItem.tag.display.Name}`).setHover("show_text", `${nbtTagItem.tag.display.Name}\n${nbtTagItem.tag.display.Lore.join('\n')}`)));
                                 }
                             }
