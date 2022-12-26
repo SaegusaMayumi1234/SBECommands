@@ -143,7 +143,7 @@ function getProfile(name, profileName, method) {
                     }
                 })
             } else {
-                selectedProfile = profiles.filter((ele) => ele.selected)[0];
+                selectedProfile = profiles.filter((ele) => ele.selected)[0] || profiles.sort((a, b) => b.last_save - a.last_save)[0] || profiles[0];
             }
             if (selectedProfile == null) {
                 return { error: true, text: ['&c&m--------------------&r', `${formatedName} &cdoesn't have any skyblock profile named '${profileName}'!&r`, '&c&m--------------------&r'] };
