@@ -47,32 +47,30 @@ function getMojang(name) {
             uuid: aschon.data.uuid.replace(/-/g, '')
         }
     }).catch(error => {
-        if (error.code === 429) {
-            let mojangURL;
-            if (isUsername(name)) {
-                mojangURL = `https://api.mojang.com/users/profiles/minecraft/${name}`;
-            } else if (isUUID(name)) {
-                mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${name}?unsigned=false`;
-            } else {
-                return { error: true, text: "&3[SBEC] &cInvalid Username!&r" };
-            }
-            return axios.get(mojangURL, {
-                headers: {
-                    "User-Agent": "Mozilla/5.0 (ChatTriggers)"
-                },
-                parseBody: true,
-            }).then(mojang => {
-                if (mojang.status === 204) {
-                    return { error: true, text: "&3[SBEC] &cInvalid Username!&r"};
-                }
-                return {
-                    name: mojang.data.name,
-                    uuid: mojang.data.id,
-                };
-            }).catch(error => {
-                return getErrorMessage(error, 'mojang', 'While trying to get uuid');
-            })
+        let mojangURL;
+        if (isUsername(name)) {
+            mojangURL = `https://api.mojang.com/users/profiles/minecraft/${name}`;
+        } else if (isUUID(name)) {
+            mojangURL = `https://sessionserver.mojang.com/session/minecraft/profile/${name}?unsigned=false`;
+        } else {
+            return { error: true, text: "&3[SBEC] &cInvalid Username!&r" };
         }
+        return axios.get(mojangURL, {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+            },
+            parseBody: true,
+        }).then(mojang => {
+            if (mojang.status === 204) {
+                return { error: true, text: "&3[SBEC] &cInvalid Username!&r"};
+            }
+            return {
+                name: mojang.data.name,
+                uuid: mojang.data.id,
+            };
+        }).catch(error => {
+            return getErrorMessage(error, 'mojang', 'While trying to get uuid');
+        })
     })
 }
 
