@@ -66,11 +66,10 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    "&b - Fixed pcheck not running when someone join from party &bfinder!",
-    "&b - Added pcheck for kuudra party finder! (will select &bautomatically)",
-    "&b - Added some more items list in pcheck command!",
-    "&b - Added option to also scan backpack and enderchest for pcheck!",
+    "&b - Fixed pcheck error when no item id!",
+    "&b - Fixed error when no selected profile!",
+    "&b - Fixed error when aschon return error other than 429",
 ];
 
-const changelog = new Changelog("SBECommands", "1.1.7", changelogMessage.join('\n'));
+const changelog = new Changelog("SBECommands", "1.1.8", changelogMessage.join('\n'));
 changelog.writeChangelog({name: "&3&l&n", version: "&e", changelog: "&a"});
