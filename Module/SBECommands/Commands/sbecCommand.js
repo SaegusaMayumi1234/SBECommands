@@ -27,7 +27,8 @@ const commandsName = {
     'essence': 'essence',
     'inventory': 'inventory',
     'pcheck': 'pcheck',
-    'trophyfish': 'trophyfish'
+    'trophyfish': 'trophyfish',
+    'crimson': 'crimson',
 };
 
 const enableCommandsName = {
@@ -55,7 +56,8 @@ const enableCommandsName = {
     'essence': true,
     'inventory': true,
     'pcheck': true,
-    'trophyfish': true
+    'trophyfish': true,
+    'crimson': true,
 };
 
 Object.keys(commandsName).forEach(command => {
@@ -91,8 +93,9 @@ module.exports = {
         chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['targetpractice'] ? 'a' : 'c'}◆ /${commandsName['targetpractice']} &8(Hover for usage)&r &7↣Returns a player's fastest target practice time.&r`).setHover("show_text", `&e${commandsName['targetpractice']} [username] (profileName)`)));
         chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['essence'] ? 'a' : 'c'}◆ /${commandsName['essence']} &8(Hover for usage)&r &7↣Returns a player's dungeon essence values.&r`).setHover("show_text", `&e${commandsName['essence']} [username] (profileName)`)));
         chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['inventory'] ? 'a' : 'c'}◆ /${commandsName['inventory']} &8(Hover for usage)&r &7↣Displays the inventory for a player&r`).setHover("show_text", `&e${commandsName['inventory']} [username] (profileName)`)));
-        chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['pcheck'] ? 'a' : 'c'}◆ /${commandsName['pcheck']} &8(Hover for usage)&r &7↣Returns information on party&r`).setHover("show_text", `&e${commandsName['pcheck']}`)));
+        chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['pcheck'] ? 'a' : 'c'}◆ /${commandsName['pcheck']} &8(Hover for usage)&r &7↣Returns information on party&r`).setHover("show_text", `&e${commandsName['pcheck']} (kuudra/dungeon)`)));
         chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['trophyfish'] ? 'a' : 'c'}◆ /${commandsName['trophyfish']} &8(Hover for usage)&r &7↣Returns information on trophy fish loot&r`).setHover("show_text", `&e${commandsName['trophyfish']} [username] (profileName)`)));
+        chat.push(new Message().addTextComponent(new TextComponent(` &${enableCommandsName['crimson'] ? 'a' : 'c'}◆ /${commandsName['crimson']} &8(Hover for usage)&r &7↣Returns crimson isle data for player&r`).setHover("show_text", `&e${commandsName['crimson']} [username] (profileName)`)));
         ChatLib.chat(`&c&m--------------&c[ &dSBECommands &c]&r&c&m--------------&r`);
         chat.forEach(item => {
             item.chat();

@@ -1,6 +1,7 @@
 import { getProfile } from '../Modules/APIWrapper/Route';
 import { errorRead, addNotation, toTitleCase, fixUnicode, timestampToTime, decodeNBTData } from '../Utils/Utils';
 import Settings from '../ConfigData/config';
+import { kuudraSequence } from '../Constants/sequence';
 
 let customCommandName = 'pcheck';
 let checkingParty = false;
@@ -226,7 +227,6 @@ function getData(name, profileArg, method) {
 
     }).catch(error => {
         ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`);
-        console.log(JSON.stringify(error));
     });
 }
 
@@ -257,13 +257,13 @@ function getFastest(floors, innit, mode) {
 
 function getKuudra(kuudra, innit, method) {
     let hoverMsg = innit;
-    let nameArray = ["none", "hot", "burning", "fiery", "infernal"];
+    let nameArray = kuudraSequence;
     nameArray.forEach(name => {
-        if (method === "completion") {
-            hoverMsg += `\n&e${name === "none" ? "basic" : name}: &a${kuudra?.[name] || 0}`;
+        if (method === 'completion') {
+            hoverMsg += `\n&e${name}: &a${kuudra?.[name === 'basic' ? 'none' : name] || 0}`;
         } else {
-            let wavesName = `highest_wave_${name}`;
-            hoverMsg += `\n&e${name === "none" ? "basic" : name}: &a${kuudra?.[wavesName] || 0}`;
+            let wavesName = `highest_wave_${name === 'basic' ? 'none' : name}`;
+            hoverMsg += `\n&e${name}: &a${kuudra?.[wavesName] || 0}`;
         }
     })
     return hoverMsg;

@@ -2,26 +2,26 @@ module.exports = {
     addNotation: function addNotation(type, value) {
         let returnVal = value;
         let notList = [];
-        if (type === "shortScale") {
+        if (type === 'shortScale') {
             //notation type
             //do notation stuff here
             notList = [
-                " Thousand",
-                " Million",
-                " Billion",
-                " Trillion",
-                " Quadrillion",
-                " Quintillion"
+                ' Thousand',
+                ' Million',
+                ' Billion',
+                ' Trillion',
+                ' Quadrillion',
+                ' Quintillion',
             ];
         }
-    
-        if (type === "oneLetters") {
-            notList = ["K", "M", "B", "T"];
+
+        if (type === 'oneLetters') {
+            notList = ['K', 'M', 'B', 'T'];
         }
-    
+
         let checkNum = 1000;
-    
-        if (type !== "none" && type !== "commas") {
+
+        if (type !== 'none' && type !== 'commas') {
             let notValue = notList[notList.length - 1];
             for (let u = notList.length; u >= 1; u--) {
                 notValue = notList.shift();
@@ -35,151 +35,170 @@ module.exports = {
                     checkNum *= 10;
                 }
             }
-	    if (typeof returnVal === 'number' && returnVal % 1 !== 0) {
+            if (typeof returnVal === 'number' && returnVal % 1 !== 0) {
                 returnVal = returnVal.toFixed(2);
             }
         } else {
-            let x = value.toFixed(0)
-            if (x === undefined) { return "" }
-            let parts = x.toString().split(".");
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            returnVal = parts.join(".")
+            let x = value.toFixed(0);
+            if (x === undefined) {
+                return '';
+            }
+            let parts = x.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            returnVal = parts.join('.');
         }
-    
+
         return returnVal;
     },
     toTitleCase: function toTitleCase(str) {
-		return str.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase());
-	},
-	capitalize: function capitalize(str) {
-		if (!str) return null;
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	},
+        return str.toLowerCase().replace(/\b(\w)/g, (s) => s.toUpperCase());
+    },
+    capitalize: function capitalize(str) {
+        if (!str) return null;
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    },
     timestampToTime: function timestampToTime(timestamp) {
-        if (timestamp == null) {
-            return "??:??.???"
+        if (timestamp === null) {
+            return '??:??.???';
         }
-        time = timestamp / 1000
-        let milisTime = timestamp
-        const miliSeconds = Math.floor(milisTime >= 1000 ? milisTime % 1000 : milisTime)
-        const seconds = Math.floor(time >= 60 ? time % 60 : time)
-        const minutes = Math.floor((time = time / 60) >= 60 ? time % 60 : time)
-    
-        let humanizedTime = ""
-    
+        time = timestamp / 1000;
+        let milisTime = timestamp;
+        const miliSeconds = Math.floor(milisTime >= 1000 ? milisTime % 1000 : milisTime);
+        const seconds = Math.floor(time >= 60 ? time % 60 : time);
+        const minutes = Math.floor((time = time / 60) >= 60 ? time % 60 : time);
+
+        let humanizedTime = '';
+
         if (minutes > 0) {
-            humanizedTime = minutes.toString().length == 1 ? `0${minutes}:` : `${minutes}:`
+            humanizedTime = minutes.toString().length === 1 ? `0${minutes}:` : `${minutes}:`;
         } else {
-            humanizedTime = "00:"
+            humanizedTime = '00:';
         }
         if (seconds > 0) {
-            humanizedTime += seconds.toString().length == 1 ? `0${seconds}.` : `${seconds}.`
+            humanizedTime += seconds.toString().length === 1 ? `0${seconds}.` : `${seconds}.`;
         } else {
-            humanizedTime += "00."
+            humanizedTime += '00.';
         }
         if (miliSeconds > 0) {
-            if (miliSeconds.toString().length == 1) {
-                humanizedTime += `00${miliSeconds}`
-            } else if (miliSeconds.toString().length == 2) {
-                humanizedTime += `0${miliSeconds}`
+            if (miliSeconds.toString().length === 1) {
+                humanizedTime += `00${miliSeconds}`;
+            } else if (miliSeconds.toString().length === 2) {
+                humanizedTime += `0${miliSeconds}`;
             } else {
-                humanizedTime += `${miliSeconds}`
+                humanizedTime += `${miliSeconds}`;
             }
         } else {
-            humanizedTime += "000"
+            humanizedTime += '000';
         }
-    
-        return humanizedTime
+
+        return humanizedTime;
     },
-    errorRead: function(text) {
+    errorRead: function (text) {
         if (typeof text === 'string') {
-            ChatLib.chat(text)
+            ChatLib.chat(text);
         } else {
             for (let i = 0; i < text.length; i++) {
-                ChatLib.chat(text[i])
+                ChatLib.chat(text[i]);
             }
         }
     },
     fixUnicode(str) {
-        return str.replace(/Â§/g, "&")
-        .replace(/âœª/g, "✪")
-        .replace(/â�Ÿ/g, "✪")
-        .replace(/âšš/g, "⚚")
-        .replace(/âœ¦/g, "✦")
-        .replace(/Ã¢Â„Â¢/g, "™")
-        .replace(/â„¢/g, "™")
-        .replace(/â��/g, "❁")
-        .replace(/â¸•/g, "⸕")
-        .replace(/â�ˆ/g, "❈")
-        .replace(/âœŽ/g, "✎")
-        .replace(/â�¤/g, "❤")
-        .replace(/â˜˜/g, "☘")
-        .replace(/âœ§/g, "✧")
-        .replace(/â—†/g, "◆")
-        .replace(/âžŠ/g, "❶")
-        .replace(/âž‹/g, "❷")
-        .replace(/âžŒ/g, "❸")
-        .replace(/âž�/g, "❹")
-        .replace(/âžŽ/g, "❺")
+        return str
+            .replace(/Â§/g, '&')
+            .replace(/âœª/g, '✪')
+            .replace(/â�Ÿ/g, '✪')
+            .replace(/âšš/g, '⚚')
+            .replace(/âœ¦/g, '✦')
+            .replace(/Ã¢Â„Â¢/g, '™')
+            .replace(/â„¢/g, '™')
+            .replace(/â��/g, '❁')
+            .replace(/â¸•/g, '⸕')
+            .replace(/â�ˆ/g, '❈')
+            .replace(/âœŽ/g, '✎')
+            .replace(/â�¤/g, '❤')
+            .replace(/â˜˜/g, '☘')
+            .replace(/âœ§/g, '✧')
+            .replace(/â—†/g, '◆')
+            .replace(/âžŠ/g, '❶')
+            .replace(/âž‹/g, '❷')
+            .replace(/âžŒ/g, '❸')
+            .replace(/âž�/g, '❹')
+            .replace(/âžŽ/g, '❺');
     },
     makePBar: function makePBar(current, total, size, color1, color2) {
         const line = '-';
-        let bar = ''
+        let bar = '';
         if (!current) {
-			bar = color2 + line.repeat(size);
-		} else if (current >= total) {
-			bar = color1 + line.repeat(size);
-		} else {
-            const firstBar = Math.round(current / total * size) == 0 ? 0 : Math.round(current / total * size);
-			const lastBar = size - firstBar;
-            bar = color1 + line.repeat(firstBar) + color2 + line.repeat(lastBar)
+            bar = color2 + line.repeat(size);
+        } else if (current >= total) {
+            bar = color1 + line.repeat(size);
+        } else {
+            const firstBar = Math.round((current / total) * size) === 0 ? 0 : Math.round((current / total) * size);
+            const lastBar = size - firstBar;
+            bar = color1 + line.repeat(firstBar) + color2 + line.repeat(lastBar);
         }
-        return bar
+        return bar;
     },
     humanizeTime: function humanizeTime(timestamp) {
-        let time = timestamp / 1000
+        let time = timestamp / 1000;
         if (time < 1) {
-            time = 1
+            time = 1;
         }
-        const seconds = Math.floor(time >= 60 ? time % 60 : time)
-        const minutes = Math.floor((time = time / 60) >= 60 ? time % 60 : time)
-        const hours = Math.floor((time = time / 60) >= 24 ? time % 24 : time)
-        const days = Math.floor((time = time / 24))
-    
-        let humanizedTime = ""
-    
+        const seconds = Math.floor(time >= 60 ? time % 60 : time);
+        const minutes = Math.floor((time = time / 60) >= 60 ? time % 60 : time);
+        const hours = Math.floor((time = time / 60) >= 24 ? time % 24 : time);
+        const days = Math.floor((time = time / 24));
+
+        let humanizedTime = '';
+
         if (days > 0) {
-            humanizedTime = days == 1 ? 'a day' : `${days} days`
+            humanizedTime = days === 1 ? 'a day' : `${days} days`;
         } else if (hours > 0) {
-            humanizedTime = hours == 1 ? 'a hour' : `${hours} hours`
+            humanizedTime = hours === 1 ? 'a hour' : `${hours} hours`;
         } else if (minutes > 0) {
-            humanizedTime = minutes == 1 ? 'a minute' : `${minutes} minutes`
+            humanizedTime = minutes === 1 ? 'a minute' : `${minutes} minutes`;
         } else if (seconds > 0) {
-            humanizedTime = seconds == 1 ? 'a second' : `${seconds} seconds`
+            humanizedTime = seconds === 1 ? 'a second' : `${seconds} seconds`;
         }
-    
-        return humanizedTime + " ago"
+
+        return `${humanizedTime} ago`;
     },
     timestampToDate: function timestampToDate(timestamp) {
-        const time = new Date(timestamp)
-        const seconds = time.getSeconds().toString().length == 1 ? `0${time.getSeconds()}` : time.getSeconds()
-        const minutes = time.getMinutes().toString().length == 1 ? `0${time.getMinutes()}` : time.getMinutes()
-        const hours = time.getHours().toString().length == 1 ? `0${time.getHours()}` : time.getHours()
-        const days = time.getDate().toString().length == 1 ? `0${time.getDate()}` : time.getDate()
-        const months = (time.getMonth() + 1).toString().length == 1 ? `0${time.getMonth() + 1}` : time.getMonth() + 1
-        const years = time.getFullYear().toString()
-        return `${months}-${days}-${years} ${hours}:${minutes}:${seconds}`
+        const time = new Date(timestamp);
+        const seconds = time.getSeconds().toString().length === 1 ? `0${time.getSeconds()}` : time.getSeconds();
+        const minutes = time.getMinutes().toString().length === 1 ? `0${time.getMinutes()}` : time.getMinutes();
+        const hours = time.getHours().toString().length === 1 ? `0${time.getHours()}` : time.getHours();
+        const days = time.getDate().toString().length === 1 ? `0${time.getDate()}` : time.getDate();
+        const months = (time.getMonth() + 1).toString().length === 1 ? `0${time.getMonth() + 1}` : time.getMonth() + 1;
+        const years = time.getFullYear().toString();
+        return `${months}-${days}-${years} ${hours}:${minutes}:${seconds}`;
     },
     decodeNBTData: function decodeNBTData(data) {
         let contents = data;
         let bytearray = java.util.Base64.getDecoder().decode(contents);
-        let inputstream = new java.io.ByteArrayInputStream(bytearray);                                
-        let nbt = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream); //CompressedStreamTools.readCompressed()                            
-        let items = nbt.func_150295_c("i", 10); //NBTTagCompound.getTagList()
+        let inputstream = new java.io.ByteArrayInputStream(bytearray);
+        let nbt = net.minecraft.nbt.CompressedStreamTools.func_74796_a(inputstream); //CompressedStreamTools.readCompressed()
+        let items = nbt.func_150295_c('i', 10); //NBTTagCompound.getTagList()
         let length = items.func_74745_c(); //NBTTagList.tagCount()
         return {
             items,
-            length
-        }
-    }
-}
+            length,
+        };
+    },
+    getAllPlayers: function getAllPlayers() {
+        const NetHandlerPlayClient = Client.getConnection();
+        const scoreboard = World.getWorld().func_96441_U();
+        const teams = scoreboard.func_96525_g();
+        const PLAYERARRAY = [];
+        teams.forEach((team) => {
+            const players = team.func_96670_d();
+            players.forEach((player) => {
+                const networkPlayerInfo = NetHandlerPlayClient.func_175104_a(player);
+                if (networkPlayerInfo !== null) {
+                    PLAYERARRAY.push(new PlayerMP(new net.minecraft.client.entity.EntityOtherPlayerMP(World.getWorld(), networkPlayerInfo.func_178845_a())));
+                }
+            });
+        });
+        return PLAYERARRAY;
+    },
+};

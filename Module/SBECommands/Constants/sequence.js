@@ -1,29 +1,29 @@
 export const slayerSequence = [
-    "zombie",
-    "spider",
-    "wolf",
-    "enderman",
-    "blaze"
+    'zombie',
+    'spider',
+    'wolf',
+    'enderman',
+    'blaze'
 ];
 
 export const skillSequence = [
-    "farming",
-    "mining",
-    "combat",
-    "foraging",
-    "fishing",
-    "enchanting",
-    "alchemy",
-    "taming",
-    "carpentry"
+    'farming',
+    'mining',
+    'combat',
+    'foraging',
+    'fishing',
+    'enchanting',
+    'alchemy',
+    'taming',
+    'carpentry'
 ];
 
 export const classSequence = [
-    "archer",
-    "berserk",
-    "healer",
-    "mage",
-    "tank"
+    'archer',
+    'berserk',
+    'healer',
+    'mage',
+    'tank'
 ];
 
 export const nwSequence = [
@@ -52,4 +52,22 @@ export const essSequence = [
     'diamond',
     'gold',
     'crimson'
-]
+];
+
+export const kuudraSequence = [
+    'basic',
+    'hot',
+    'burning',
+    'fiery',
+    'infernal'
+];
+
+export const dojoSequence = [
+    'force',
+    'stamina',
+    'mastery',
+    'discipline',
+    'swiftness',
+    'control',
+    'tenacity'
+];

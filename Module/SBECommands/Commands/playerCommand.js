@@ -19,6 +19,7 @@ module.exports = {
             let link = `https://sky.shiiyu.moe/stats/${data.name}/${data.raw.cute_name}`;
             chat.push(new Message().addTextComponent(new TextComponent("&6&l" + link + "&r").setClick("open_url", link)));
             chat.push(new Message().addTextComponent(new TextComponent("&bData for: " + data.formatedName + "&r")));
+            chat.push(new Message().addTextComponent(new TextComponent(`&eLevel&f: ${getSBLevel(data)} &7(${addNotation("commas", data.raw.members[data.uuid].leveling.experience || 0)})`)))
             skillSequence.forEach(skill => {
                 let skillData = getSkillMsg(skill, data);
                 chat.push(new Message().addTextComponent(new TextComponent(skillData.skillMsg).setHover("show_text", skillData.hoverMsg)));
@@ -49,6 +50,29 @@ module.exports = {
     inject(name) {
         customCommandName = name;
     }
+}
+
+function getSBLevel(data) {
+    const exp = data.raw.members[data.uuid]?.leveling?.experience || 0;
+    let color = '&7';
+    if (exp >= 32000) {
+        color = '&c';
+    } else if (exp >= 28000) {
+        color = '&b';
+    } else if (exp >= 24000) {
+        color = '&d'
+    } else if (exp >= 20000) {
+        color = '&6'
+    } else if (exp >= 16000) {
+        color = '&5'
+    } else if (exp >= 12000) {
+        color = '&9'
+    } else if (exp >= 8000) {
+        color = '&a'
+    } else if (exp >= 4000) {
+        color = '&f'
+    }
+    return `${color}${Math.floor(exp / 100)}`;
 }
 
 function getSkillMsg(skill, data) {

@@ -170,6 +170,13 @@ class Settings {
     })
     trophyfish = true;
 
+    @SwitchProperty({
+        name: "crimson",
+        description: "",
+        category: "A. enable/disable",
+    })
+    crimson = true;
+
     //Custom
     @TextProperty({
         name: "calcpet",
@@ -317,6 +324,13 @@ class Settings {
         category: "B. custom command",
     })
     customtrophyfish = '';
+
+    @TextProperty({
+        name: "crimson",
+        description: "",
+        category: "B. custom command",
+    })
+    customcrimson = '';
 }
 
 export default new Settings;
