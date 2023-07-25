@@ -1,5 +1,5 @@
 export const leveling_xp = {
-    "leveling_xp": [
+    'leveling_xp': [
         0,
         50,
         125,
@@ -62,21 +62,21 @@ export const leveling_xp = {
         6700000,
         7000000
     ],
-    "leveling_caps": {
-        "taming": 50,
-        "mining": 60,
-        "foraging": 50,
-        "enchanting": 60,
-        "carpentry": 50,
-        "farming": 50,
-        "combat": 60,
-        "fishing": 50,
-        "alchemy": 50,
-        "runecrafting": 25,
-        "catacombs": 100,
-        "HOTM": 7
+    'leveling_caps': {
+        'taming': 50,
+        'mining': 60,
+        'foraging': 50,
+        'enchanting': 60,
+        'carpentry': 50,
+        'farming': 50,
+        'combat': 60,
+        'fishing': 50,
+        'alchemy': 50,
+        'runecrafting': 25,
+        'catacombs': 100,
+        'HOTM': 7
     },
-    "runecrafting_xp": [
+    'runecrafting_xp': [
         50,
         100,
         125,
@@ -103,8 +103,8 @@ export const leveling_xp = {
         15300,
         19050
     ],
-    "slayer_xp": {
-        "zombie": [
+    'slayer_xp': {
+        'zombie': [
             5,
             15,
             200,
@@ -115,7 +115,7 @@ export const leveling_xp = {
             400000,
             1000000
         ],
-        "spider": [
+        'spider': [
             5,
             15,
             200,
@@ -126,7 +126,7 @@ export const leveling_xp = {
             400000,
             1000000
         ],
-        "wolf": [
+        'wolf': [
             10,
             30,
             250,
@@ -137,7 +137,7 @@ export const leveling_xp = {
             400000,
             1000000
         ],
-        "enderman": [
+        'enderman': [
             10,
             30,
             250,
@@ -148,7 +148,7 @@ export const leveling_xp = {
             400000,
             1000000
         ],
-        "blaze": [
+        'blaze': [
             10,
             30,
             250,
@@ -160,21 +160,21 @@ export const leveling_xp = {
             1000000
         ]
     },
-    "slayer_boss_xp": [
+    'slayer_boss_xp': [
         5,
         25,
         100,
         500,
         1500
     ],
-    "slayer_boss_price": [
+    'slayer_boss_price': [
         2000,
         7500,
         20000,
         50000,
         100000
     ],
-    "catacombs": [
+    'catacombs': [
         0,
         50,
         75,
@@ -277,7 +277,7 @@ export const leveling_xp = {
         200000000,
         200000000,
     ],
-    "HOTM": [
+    'HOTM': [
         0,
         3000,
         9000,

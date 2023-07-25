@@ -34,19 +34,19 @@ module.exports = {
             }
             let chat = [];
             chat.push(new Message().addTextComponent(new TextComponent(`&b Data for: ${data.formatedName}&r`)));
-            chat.push(new Message().addTextComponent(new TextComponent(`&r`)));
-            chat.push(new Message().addTextComponent(new TextComponent(`&d Kuudra Runs:&r`)));
+            chat.push(new Message().addTextComponent(new TextComponent('&r')));
+            chat.push(new Message().addTextComponent(new TextComponent('&d Kuudra Runs:&r')));
             kuudraSequence.forEach(kuudra => {
                 const { completions, waves } = getKuudraData(kuudra, data)
                 chat.push(new Message().addTextComponent(new TextComponent(`&d ${kuudraToColor[kuudra]}${toTitleCase(kuudra)}: &b${addNotation('commas', completions)} &c[&d${addNotation('commas', waves)}&c]`)));
             });
-            chat.push(new Message().addTextComponent(new TextComponent(`&r`)));
-            chat.push(new Message().addTextComponent(new TextComponent(`&d Dojo Points:&r`)));
+            chat.push(new Message().addTextComponent(new TextComponent('&r')));
+            chat.push(new Message().addTextComponent(new TextComponent('&d Dojo Points:&r')));
             chat.push(new Message().addTextComponent(new TextComponent(`&r ${getTotalDojo(data)}&r`)));
             dojoSequence.forEach(dojo => {
                 chat.push(new Message().addTextComponent(new TextComponent(`&r ${getDojo(dojo, data)}&r`)));
             })
-            chat.push(new Message().addTextComponent(new TextComponent(`&r`)));
+            chat.push(new Message().addTextComponent(new TextComponent('&r')));
             chat.push(new Message().addTextComponent(new TextComponent(`&5 ${data.raw.members[data.uuid]?.nether_island_player_data?.selected_faction === 'mages' ? '&l' : ''}Mage&r&f: ${addNotation('commas', data.raw.members[data.uuid]?.nether_island_player_data?.mages_reputation || 0)}&r`)));
             chat.push(new Message().addTextComponent(new TextComponent(`&c ${data.raw.members[data.uuid]?.nether_island_player_data?.selected_faction === 'barbarians' ? '&l' : ''}Barbs&r&f: ${addNotation('commas', data.raw.members[data.uuid]?.nether_island_player_data?.barbarians_reputation || 0)}&r`)));
             ChatLib.chat('&c&m--------------------&r');

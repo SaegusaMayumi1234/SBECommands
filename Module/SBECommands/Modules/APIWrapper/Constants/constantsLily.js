@@ -1,15 +1,15 @@
 module.exports = {
-    "skillNames": {
-        "experience_skill_enchanting": "skyblock_augmentation",
-        "experience_skill_taming": "skyblock_domesticator",
-        "experience_skill_alchemy": "skyblock_concoctor",
-        "experience_skill_mining": "skyblock_excavator",
-        "experience_skill_farming": "skyblock_harvester",
-        "experience_skill_foraging": "skyblock_gatherer",
-        "experience_skill_combat": "skyblock_combat",
-        "experience_skill_fishing": "skyblock_angler"
+    'skillNames': {
+        'experience_skill_enchanting': 'skyblock_augmentation',
+        'experience_skill_taming': 'skyblock_domesticator',
+        'experience_skill_alchemy': 'skyblock_concoctor',
+        'experience_skill_mining': 'skyblock_excavator',
+        'experience_skill_farming': 'skyblock_harvester',
+        'experience_skill_foraging': 'skyblock_gatherer',
+        'experience_skill_combat': 'skyblock_combat',
+        'experience_skill_fishing': 'skyblock_angler'
     },
-    "dungeonExperienceTable": [
+    'dungeonExperienceTable': [
         0,
         50,
         125,
@@ -63,9 +63,9 @@ module.exports = {
         569809640,
         999999999999999999999999999999999999999999999999999999
     ],
-    "dungeonMaxXP": 569809640,
-    "dungeonOverall": 1.2733079672009226,
-    "dungeonCompletionWorth": [
+    'dungeonMaxXP': 569809640,
+    'dungeonOverall': 1.2733079672009226,
+    'dungeonCompletionWorth': [
         0.0827,
         2.1034,
         4.5966,
@@ -82,16 +82,16 @@ module.exports = {
         99.20524,
         295.090592
     ],
-    "dungeonCompletionBuffs": {
-        "1": 62.5,
-        "2": 125,
-        "3": 225,
-        "4": 387.5,
-        "5": 500,
-        "6": 700,
-        "7": 1500
+    'dungeonCompletionBuffs': {
+        '1': 62.5,
+        '2': 125,
+        '3': 225,
+        '4': 387.5,
+        '5': 500,
+        '6': 700,
+        '7': 1500
     },
-    "skillXPPerLevel": [
+    'skillXPPerLevel': [
         0,
         50,
         125,
@@ -154,8 +154,8 @@ module.exports = {
         6700000,
         7000000
     ],
-    "skillMaxXP": 111672425,
-    "skillOverflowMultipliers": [
+    'skillMaxXP': 111672425,
+    'skillOverflowMultipliers': [
         7,
         4,
         1.5,
@@ -165,7 +165,7 @@ module.exports = {
         125,
         85
     ],
-    "skillFactors": [
+    'skillFactors': [
         0.9560187460,
         0.9422102267,
         0.9227482118,
@@ -175,8 +175,8 @@ module.exports = {
         0.9892892803,
         0.9828798757
     ],
-    "skillRatioWeight": {
-        "enchanting": [
+    'skillRatioWeight': {
+        'enchanting': [
             0,
             0.0125,
             0.025,
@@ -240,7 +240,7 @@ module.exports = {
             0.78125,
             30
         ],
-        "taming": [
+        'taming': [
             0,
             0.01625,
             0.0325,
@@ -304,7 +304,7 @@ module.exports = {
             1.015625,
             35
         ],
-        "alchemy": [
+        'alchemy': [
             0,
             0.01625,
             0.0325,
@@ -368,7 +368,7 @@ module.exports = {
             1.015625,
             40
         ],
-        "mining": [
+        'mining': [
             0,
             0.01875,
             0.0375,
@@ -432,7 +432,7 @@ module.exports = {
             1.171875,
             60
         ],
-        "farming": [
+        'farming': [
             0,
             0.0275,
             0.055,
@@ -496,7 +496,7 @@ module.exports = {
             1.71875,
             80
         ],
-        "foraging": [
+        'foraging': [
             0,
             0.025,
             0.05,
@@ -560,7 +560,7 @@ module.exports = {
             1.5625,
             80
         ],
-        "combat": [
+        'combat': [
             0,
             0.025,
             0.05,
@@ -624,7 +624,7 @@ module.exports = {
             1.5625,
             85
         ],
-        "fishing": [
+        'fishing': [
             0,
             0.02125,
             0.0425,
@@ -689,12 +689,12 @@ module.exports = {
             85
         ]
     },
-    "slayerDeprecationScaling": [
+    'slayerDeprecationScaling': [
         0.72529102591,
         0.7732512436,
         0.80852054920,
         0.8374104242,
         0.842
     ],
-    "skillOverall": 1.8162162162162162
+    'skillOverall': 1.8162162162162162
 }

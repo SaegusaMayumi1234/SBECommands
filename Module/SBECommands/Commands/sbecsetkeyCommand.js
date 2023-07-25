@@ -8,11 +8,11 @@ module.exports = {
     name: 'sbecsetkey',
     execute(args) {
         if (args[0] == undefined) {
-            ChatLib.chat("&3[SBEC] &a&cImproper Usage. /sbecsetkey [key]&r");
+            ChatLib.chat('&3[SBEC] &a&cImproper Usage. /sbecsetkey [key]&r');
             return;
         }
         if (args[0].length != 36) {
-            ChatLib.chat("&3[SBEC] &a&cInvalid API Key. Please insert your valid Hypixel API Key&r");
+            ChatLib.chat('&3[SBEC] &a&cInvalid API Key. Please insert your valid Hypixel API Key&r');
             return;
         }
         getApiKeyStatus(args[0]).then(data => {
@@ -20,16 +20,16 @@ module.exports = {
                 errorRead(data.text);
                 return;
             }
-            save("apikey", args[0]);
-            ChatLib.chat("&3[SBEC] &aThe Hypixel API key has been saved!&r");
-        })
+            save('apikey', args[0]);
+            ChatLib.chat('&3[SBEC] &aThe Hypixel API key has been saved!&r');
+        });
     },
     inject(name) {
         customCommandName = name;
     }
 }
 
-register("chat",(apikey)=>{
-	ChatLib.chat("&3[SBEC] &aThe Hypixel API key has been saved!&r");
-	save("apikey", apikey);
-}).setChatCriteria("&aYour new API key is &r&b${apikey}&r");
+register('chat',(apikey)=>{
+	ChatLib.chat('&3[SBEC] &aThe Hypixel API key has been saved!&r');
+	save('apikey', apikey);
+}).setChatCriteria('&aYour new API key is &r&b${apikey}&r');

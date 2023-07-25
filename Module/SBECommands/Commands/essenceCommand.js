@@ -13,13 +13,13 @@ const essToColor = {
     'diamond': '3',
     'gold': 'e',
     'crimson': 'c'
-}
+};
 
 module.exports = {
     name: 'essence',
     execute(args) {
         let name = args[0] == undefined ? Player.getName() : args[0];
-        let profileArg = args[1] == undefined ? "last save" : args[1];
+        let profileArg = args[1] == undefined ? 'last save' : args[1];
 
         getProfile(name, profileArg).then(data => {
             if (data.error) {
@@ -30,18 +30,18 @@ module.exports = {
             if (data.essences.apiDisabled) {
                 chat.push(new Message().addTextComponent(new TextComponent(`&3[SBEC] &cInventory API is not enabled for: ${data.formatedName}&r`)));
             } else {
-                chat.push(new Message().addTextComponent(new TextComponent("&bDungeon Essence for: " + data.formatedName + "&r")));
+                chat.push(new Message().addTextComponent(new TextComponent('&bDungeon Essence for: ' + data.formatedName + '&r')));
                 essSequence.forEach(ess => {
-                    chat.push(new Message().addTextComponent(new TextComponent(`&${essToColor[ess]}${toTitleCase(ess)} Essence: &a${addNotation("commas", data.essences[ess])}&r`)));
+                    chat.push(new Message().addTextComponent(new TextComponent(`&${essToColor[ess]}${toTitleCase(ess)} Essence: &a${addNotation('commas', data.essences[ess])}&r`)));
                 })
             }
-            ChatLib.chat("&c&m--------------------&r");
+            ChatLib.chat('&c&m--------------------&r');
             chat.forEach(msg => {
                 msg.chat();
             });
-            ChatLib.chat("&c&m--------------------&r");
+            ChatLib.chat('&c&m--------------------&r');
         }).catch(error => {
-            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
+            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`);
         });
     },
     inject(name) {
