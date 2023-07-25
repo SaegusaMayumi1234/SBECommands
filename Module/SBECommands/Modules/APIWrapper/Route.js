@@ -214,14 +214,14 @@ function getHypixelGuild(name) {
 
 function getApiKeyStatus(apikey) {
     return axios.get(`https://api.hypixel.net/player?uuid=${Player.getUUID()}`, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (ChatTriggers)',
-                'API-Key': apikey,
-            },
-            parseBody: true,
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (ChatTriggers)',
+            'API-Key': apikey,
+        },
+        parseBody: true,
     })
     .then(player => {
-            return { valid: true };
+        return { valid: true };
     }).catch(error => {
         return getErrorMessage(error, 'hypixel', 'while trying to get api key status');
     })
@@ -229,10 +229,10 @@ function getApiKeyStatus(apikey) {
 
 function getItemsData() {
     return axios.get('https://api.hypixel.net/resources/skyblock/items', {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (ChatTriggers)',
-            },
-            parseBody: true,
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (ChatTriggers)',
+        },
+        parseBody: true,
     })
     .then(items => {
         return items.data;
