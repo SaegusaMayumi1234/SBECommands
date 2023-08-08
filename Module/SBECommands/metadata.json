@@ -2,8 +2,8 @@
     "name": "SBECommands",
     "author": "IcarusPhantom",
     "entry": "index.js",
-    "version": "1.1.9",
+    "version": "1.2.0",
     "requires": ["PromiseV2", "PogData", "Vigilance", "axios", "ChangelogLib"],
-    "helpMessage": "&3[SBEC] &fThanks for downloading this modules! Created by &dIcarusPhantom&c❤ &fdo &e/sbec &f and &e/sbecauthor &fto know more about me!",
+    "helpMessage": "&3[SBEC] &fThanks for downloading this modules! Created by &dIcarusPhantom &c❤ &fdo &e/sbec &ffor the command list. But if that doesn't work try to run &e/ct load &ffirst",
     "description": "Recreating SBE commands that possible in chattrigger"
 }

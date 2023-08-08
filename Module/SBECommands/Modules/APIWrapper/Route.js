@@ -77,12 +77,12 @@ function getMojang(name) {
 function getHypixelPlayer(name) {
     return getMojang(name).then(mojang => {
         if (mojang.error) return mojang;
-        console.log(JSON.stringify(mojang));
         name = mojang.name;
         const uuid = mojang.uuid;
-        return axios.get(`https://api.hypixel.net/player?key=${get("apikey")}&uuid=${uuid}`, {
+        return axios.get(`https://api.hypixel.net/player?uuid=${uuid}`, {
             headers: {
-                "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+                "User-Agent": "Mozilla/5.0 (ChatTriggers)",
+                'API-Key': get('apikey'),
             },
             parseBody: true,
         })
@@ -112,9 +112,10 @@ function getProfile(name, profileName, method) {
         const uuid = player.uuid;
         let formatedName = player.formatedName;
 
-        return axios.get(`https://api.hypixel.net/skyblock/profiles?key=${get("apikey")}&uuid=${uuid}`, {
+        return axios.get(`https://api.hypixel.net/skyblock/profiles?uuid=${uuid}`, {
             headers: {
-                "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+                "User-Agent": "Mozilla/5.0 (ChatTriggers)",
+                'API-Key': get('apikey'),
             },
             parseBody: true,
         })
@@ -169,6 +170,7 @@ function getProfile(name, profileName, method) {
                 uuid: uuid,
                 formatedName: formatedName,
                 profile: selectedProfile.cute_name,
+                profileId: selectedProfile.profile_id,
                 skills: getSkills(uuid, selectedProfile, playerData),
                 dungeons: getDungeons(uuid, selectedProfile, playerData),
                 slayers: getSlayers(uuid, selectedProfile),
@@ -185,15 +187,31 @@ function getProfile(name, profileName, method) {
     })
 }
 
+function getMuseumData(profileId) {
+    return axios.get(`https://api.hypixel.net/skyblock/museum?profile=${profileId}`, {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (ChatTriggers)',
+            'API-Key': get('apikey'),
+        },
+        parseBody: true,
+    })
+    .then(museum => {
+            return museum.data;
+    }).catch(error => {
+        return getErrorMessage(error, 'hypixel', 'while trying to get museum data');
+    })
+}
+
 function getHypixelGuild(name) {
     return getHypixelPlayer(name).then(player => {
         if (player.error) return player;
         name = player.name;
         const uuid = player.uuid;
         let formatedName = player.formatedName;
-        return axios.get(`https://api.hypixel.net/guild?key=${get("apikey")}&player=${uuid}`, {
+        return axios.get(`https://api.hypixel.net/guild?player=${uuid}`, {
             headers: {
-                "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+                "User-Agent": "Mozilla/5.0 (ChatTriggers)",
+                'API-Key': get('apikey'),
             },
             parseBody: true,
         })
@@ -211,17 +229,32 @@ function getHypixelGuild(name) {
 }
 
 function getApiKeyStatus(apikey) {
-    return axios.get(`https://api.hypixel.net/key?key=${apikey}`, {
+    return axios.get(`https://api.hypixel.net/player?uuid=${Player.getUUID()}`, {
         headers: {
-            "User-Agent": "Mozilla/5.0 (ChatTriggers)"
+            'User-Agent': 'Mozilla/5.0 (ChatTriggers)',
+            'API-Key': apikey,
         },
         parseBody: true,
     })
-    .then(apikeystatus => {
-        return { valid: true };
+    .then(player => {
+            return { valid: true };
     }).catch(error => {
-        return getErrorMessage(error, 'while trying to get api key status');
-    });
+        return getErrorMessage(error, 'hypixel', 'while trying to get api key status');
+    })
+}
+
+function getItemsData() {
+    return axios.get('https://api.hypixel.net/resources/skyblock/items', {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (ChatTriggers)',
+        },
+        parseBody: true,
+    })
+    .then(items => {
+        return items.data;
+    }).catch(error => {
+        return getErrorMessage(error, 'hypixel', 'while trying to get items data');
+    })
 }
 
 function postNetworthData(data) {
@@ -242,7 +275,7 @@ function postNetworthData(data) {
     })
 }
 
-export { getHypixelPlayer, getProfile, getHypixelGuild, getApiKeyStatus, postNetworthData };
+export { getHypixelPlayer, getProfile, getMuseumData, getHypixelGuild, getApiKeyStatus, getItemsData, postNetworthData };
 
 function getErrorMessage(error, method, reason) {
     if (method === 'hypixel' || method === 'mojang') {

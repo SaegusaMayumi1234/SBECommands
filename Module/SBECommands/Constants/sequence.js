@@ -3,7 +3,8 @@ export const slayerSequence = [
     'spider',
     'wolf',
     'enderman',
-    'blaze'
+    'blaze',
+    'vampire'
 ];
 
 export const skillSequence = [
@@ -40,7 +41,8 @@ export const nwSequence = [
     'essence',
     'fishing_bag',
     'potion_bag',
-    'candy_inventory'
+    'candy_inventory',
+    'museum'
 ];
 
 export const essSequence = [

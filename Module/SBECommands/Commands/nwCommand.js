@@ -1,5 +1,5 @@
 import { nwSequence } from '../Constants/sequence';
-import { getProfile, postNetworthData } from '../Modules/APIWrapper/Route';
+import { getMuseumData, getProfile, postNetworthData } from '../Modules/APIWrapper/Route';
 import { errorRead, addNotation, toTitleCase, fixUnicode } from '../Utils/Utils';
 
 let customCommandName = 'nw';
@@ -24,38 +24,50 @@ module.exports = {
             if (data.raw.banking !== undefined) {
                 memberData.banking = data.raw.banking;
             }
-            ChatLib.chat(`&3[SBEC] &aAttempting to search for ${data.name}'s networth.&r`);
-            postNetworthData(memberData).then(data2 => {
-                if (data2.error) {
-                    errorRead(data2.text);
+            getMuseumData(data.profileId).then(museumData => {
+                if (museumData.error) {
+                    errorRead(museumData.text);
                     return;
                 }
-                let chat = []
-                chat.push(new Message().addTextComponent(new TextComponent(`${data.formatedName}&c's Networth:&r`)));
-                chat.push(new Message().addTextComponent(new TextComponent(`&d ⦾ &6$${addNotation('commas', (data2.data.networth || 0))}`)));
-                chat.push(new Message().addTextComponent(new TextComponent(`&r`)));
-                chat.push(
-                    new Message()
-                    .addTextComponent(new TextComponent(`&a | &bCoins: &6${addNotation("oneLetters", (data2.data.purse || 0) + (data2.data.bank || 0))}&r`))
-                    .addTextComponent(new TextComponent(` - &7(Details)&r`).setHover('show_text', `&bPurse: &6${addNotation("commas", (data2.data.purse || 0))}\n&bBank: &6${addNotation("commas", (data2.data.bank || 0))}`))
-                );
-                nwSequence.forEach(place => {
-                    if (data2.data.types[place] !== undefined) {
-                        chat.push(
-                            new Message()
-                            .addTextComponent(new TextComponent(`&d | &b${toTitleCase(place.replace(/_/g, ' '))}: &6${addNotation("oneLetters", data2.data.types[place].total)}&r`))
-                            .addTextComponent(new TextComponent(` - &7(Details)&r`).setHover('show_text', nwDetails(data2, place)))
-                        );
+                if (museumData.members[data.uuid]) {
+                    memberData.museum = museumData.members[data.uuid];
+                }
+                ChatLib.chat(`&3[SBEC] &aAttempting to search for ${data.name}'s networth.&r`);
+                postNetworthData(memberData).then(data2 => {
+                    if (data2.error) {
+                        errorRead(data2.text);
+                        return;
                     }
-                })
-                chat.push(new Message().addTextComponent(new TextComponent("&aPowered by &5Maro&a API, tweaked by &5SkyHelper&a, fixed and hosted by &5IcarusPhantom&r")));
-
-                ChatLib.chat("&c&m--------------------&r");
-                chat.forEach(msg => {
-                    msg.chat();
+                    let chat = []
+                    chat.push(new Message().addTextComponent(new TextComponent(`${data.formatedName}&c's Networth:&r`)));
+                    chat.push(new Message().addTextComponent(new TextComponent(`&d ⦾ &6$${addNotation('commas', (data2.data.networth || 0))}`)));
+                    chat.push(new Message().addTextComponent(new TextComponent(`&r`)));
+                    chat.push(
+                        new Message()
+                        .addTextComponent(new TextComponent(`&a | &bCoins: &6${addNotation("oneLetters", (data2.data.purse || 0) + (data2.data.bank || 0))}&r`))
+                        .addTextComponent(new TextComponent(` - &7(Details)&r`).setHover('show_text', `&bPurse: &6${addNotation("commas", (data2.data.purse || 0))}\n&bBank: &6${addNotation("commas", (data2.data.bank || 0))}`))
+                    );
+                    nwSequence.forEach(place => {
+                        if (data2.data.types[place] !== undefined) {
+                            chat.push(
+                                new Message()
+                                .addTextComponent(new TextComponent(`&d | &b${toTitleCase(place.replace(/_/g, ' '))}: &6${addNotation("oneLetters", data2.data.types[place].total)}&r`))
+                                .addTextComponent(new TextComponent(` - &7(Details)&r`).setHover('show_text', nwDetails(data2, place)))
+                            );
+                        }
+                    })
+                    chat.push(new Message().addTextComponent(new TextComponent("&aPowered by &5Maro&a API, tweaked by &5SkyHelper&a, fixed and hosted by &5IcarusPhantom&r")));
+    
+                    ChatLib.chat("&c&m--------------------&r");
+                    chat.forEach(msg => {
+                        msg.chat();
+                    });
+                    ChatLib.chat("&c&m--------------------&r");
+                }).catch(error => {
+                    ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
                 });
-                ChatLib.chat("&c&m--------------------&r");
             }).catch(error => {
+                console.log(JSON.stringify(error));
                 ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
             });
         }).catch(error => {

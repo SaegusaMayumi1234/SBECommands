@@ -13,6 +13,7 @@ exports.getSlayers = function getSlayers(uuid, profile) {
 		wolf: calcSlayer('wolf', profileData.slayer_bosses?.['wolf']),
 		enderman: calcSlayer('enderman', profileData.slayer_bosses?.['enderman']),
 		blaze: calcSlayer('blaze', profileData.slayer_bosses?.['blaze']),
+		vampire: calcSlayer('vampire', profileData.slayer_bosses?.['vampire']),
 	};
 	res.total_experience = getTotalExperience(res);
 	res.total_coins_spent = getTotalCoinsSpent(res);
@@ -64,11 +65,11 @@ function calcSlayer(slayer, slayerData) {
 		}
 	}
 
-	coins_spent += (kills['1'] || 0) * 100;
-	coins_spent += (kills['2'] || 0) * 2000;
-	coins_spent += (kills['3'] || 0) * 10000;
-	coins_spent += (kills['4'] || 0) * 50000;
-	coins_spent += (kills['5'] || 0) * 100000;
+	coins_spent += (kills['1'] || 0) * (slayer === 'vampire' ? 2000 : 100);
+    coins_spent += (kills['2'] || 0) * (slayer === 'vampire' ? 4000 : 2000);
+    coins_spent += (kills['3'] || 0) * (slayer === 'vampire' ? 5000 : 10000);
+    coins_spent += (kills['4'] || 0) * (slayer === 'vampire' ? 7000 : 50000);
+    coins_spent += (kills['5'] || 0) * (slayer === 'vampire' ? 10000 : 100000);
 
 	return {
 		xp: experience,
@@ -86,7 +87,8 @@ function getTotalExperience(slayers) {
         slayers.spider.xp +
         slayers.wolf.xp +
         slayers.enderman.xp +
-        slayers.blaze.xp
+        slayers.blaze.xp +
+		slayers.vampire.xp
 	);
 }
 

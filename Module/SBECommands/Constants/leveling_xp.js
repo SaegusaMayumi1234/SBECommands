@@ -158,7 +158,14 @@ export const leveling_xp = {
             100000,
             400000,
             1000000
-        ]
+        ],
+        "vampire": [
+            20,
+            75,
+            240,
+            840,
+            2400
+        ],
     },
     "slayer_boss_xp": [
         5,

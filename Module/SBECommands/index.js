@@ -13,6 +13,7 @@ import {
     pcheckMode,
 } from './Constants/tabCompletionConst';
 import { getAllPlayers } from './Utils/Utils';
+import { updateItemsData } from './Modules/itemsUpdater';
 
 const File = Java.type('java.io.File');
 
@@ -100,24 +101,16 @@ function registerCommand() {
 }
 
 const changelogMessage = [
-    '&b - Added tab auto completion for commands!',
-    '&b - Added sb level to player command!',
-    '&b - Added crimson command!',
-    '&b - Code consistency part 1!'
+    '&b - Added vampire slayer in player and slayer command!',
+    '&b - Changed sb level color in player command!',
+    '&b - Added museum in nw command!',
+    '&b - Networth API now will much faster and hopefully 99.9% &buptime',
+    '&b - Some items data now will updated dynamically!',
+    '&b - Used API-Key header instead of param for hypixel apikey!',
+    '&b - Removed deprecated hypixel api endpoint!',
 ];
 
-const changelog = new Changelog('SBECommands', '1.1.9', changelogMessage.join('\n'));
+const changelog = new Changelog('SBECommands', '1.2.0', changelogMessage.join('\n'));
 changelog.writeChangelog({name: '&3&l&n', version: '&e', changelog: '&a'});
 
-// changed:
-/**
- * index.js
- * Utils/Utils.js
- * Constants/tabCompletionConst.js
- * Commands/sbecCommand.js
- * Commands/playerCommand.js
- * Commands/cataCommand.js
- * Constants/sequence.js
- * Commands/pcheckCommand.js
- * Commands/crimsonCommand.js
- */
+updateItemsData();

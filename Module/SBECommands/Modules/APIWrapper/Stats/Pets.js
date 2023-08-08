@@ -1,4 +1,4 @@
-import { maxCustomLevel, pet_items, pet_levels, pet_rarity_offset, pet_value, pet_rewards, uniquePets } from "../Constants/pet"
+import { maxCustomLevel, pet_levels, pet_rarity_offset, pet_value, pet_rewards, uniquePets } from "../Constants/pet"
 import { toTitleCase } from '../../../Utils/Utils'
 
 const rarityToColor = {
@@ -29,7 +29,25 @@ exports.getPets = function getPets(uuid, profileData) {
         if (pet.heldItem === "PET_ITEM_TOY_JERRY" || pet.heldItem === "PET_ITEM_VAMPIRE_FANG") {
             pet.tier = "MYTHIC"
         }
-        let petheldItemDisplay = pet_items[pet.heldItem] !== undefined ? `&${rarityToColor[pet_items[pet.heldItem].tier]}${pet_items[pet.heldItem].name}` : null
+        const itemsData = JSON.parse(FileLib.read('SBECommands', 'Constants/items.json'));
+        const petItemsData = itemsData.items.find(value => value.category === 'PET_ITEM' && value.id === pet.heldItem);
+        let petHeldItemColor = null;
+        if (petItemsData) {
+            if (pet.heldItem.includes('_SKILL_BOOST_')) {
+                petHeldItemColor = rarityToColor[petItemsData.id.split('_SKILL_BOOST_')[1]];
+            } else if (pet.heldItem.includes('_SKILLS_BOOST_')) {
+                petHeldItemColor = rarityToColor[petItemsData.id.split('_SKILLS_BOOST_')[1]];
+            } else if (pet.heldItem === 'ALL_SKILLS_SUPER_BOOST') {
+                petHeldItemColor = 'f';
+            } else {
+                if (petItemsData.tier) {
+                    petHeldItemColor = rarityToColor[petItemsData.tier];
+                } else {
+                    petHeldItemColor = 'f';
+                }
+            }
+        }
+        let petheldItemDisplay = petItemsData ? `&${petHeldItemColor}${petItemsData.name}` : null;
         const maxLevel = maxCustomLevel[pet.type] || 100
         const rarityOffset = pet_rarity_offset[pet.tier.toLowerCase()]
         const levels = pet_levels.slice(rarityOffset, rarityOffset + maxLevel - 1);

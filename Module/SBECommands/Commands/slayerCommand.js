@@ -53,6 +53,7 @@ function getSlayerMsg(slayer, data) {
             hoverMsg += `&aTier ${i} Kills: &b0\n`;
         }
     }
-    hoverMsg += `&r\n&3Approximate Coins Spent: &a${addNotation("commas", data.slayers[slayer].coins_spent)}`;
+    const costName = slayer === 'vampire' ? '&dApproximate Motes Spent' : '&3Approximate Coins Spent';
+    hoverMsg += `&r\n${costName}: &a${addNotation('commas', data.slayers[slayer].coins_spent)}`;
     return { slayerMsg, hoverMsg };
 }
