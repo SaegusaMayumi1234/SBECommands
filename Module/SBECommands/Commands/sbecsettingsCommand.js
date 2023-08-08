@@ -1,4 +1,4 @@
-import Settings from '../ConfigData/config';
+import Settings from "../ConfigData/config";
 
 let customCommandName = 'sbecsettings';
 

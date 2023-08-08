@@ -3,8 +3,7 @@ export const slayerSequence = [
     'spider',
     'wolf',
     'enderman',
-    'blaze',
-    'vampire'
+    'blaze'
 ];
 
 export const skillSequence = [

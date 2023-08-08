@@ -5,11 +5,11 @@ let customCommandName = 'invetory';
 
 const Minecraft = Client.getMinecraft();
 
-//const ItemClass = Java.type('net.minecraft.item.Item');
-const ItemStack = Java.type('net.minecraft.item.ItemStack');
-const InventoryBasic = Java.type('net.minecraft.inventory.InventoryBasic');
-const GuiChest = Java.type('net.minecraft.client.gui.inventory.GuiChest');
-const MCItem = Java.type('net.minecraft.item.Item');
+//const ItemClass = Java.type("net.minecraft.item.Item");
+const ItemStack = Java.type("net.minecraft.item.ItemStack");
+const InventoryBasic = Java.type("net.minecraft.inventory.InventoryBasic");
+const GuiChest = Java.type("net.minecraft.client.gui.inventory.GuiChest");
+const MCItem = Java.type("net.minecraft.item.Item");
 
 let lastInv = null;
 let invToOpen = null;
@@ -18,7 +18,7 @@ module.exports = {
     name: 'inventory',
     execute(args) {
         let name = args[0] == undefined ? Player.getName() : args[0];
-        let profileArg = args[1] == undefined ? 'last save' : args[1];
+        let profileArg = args[1] == undefined ? "last save" : args[1];
         ChatLib.chat(`&3[SBEC] &aFinding inventory for ${name}`);
         getProfile(name, profileArg).then(data => {
             if (data.error) {
@@ -27,13 +27,13 @@ module.exports = {
             }
 
             if (data.raw.members[data.uuid].inv_contents === undefined) {
-                ChatLib.chat('&3[SBEC] &cPlayer does not have their inventory api on!&r');
+                ChatLib.chat(`&3[SBEC] &cPlayer does not have their inventory api on!&r`);
             }
 
-            let inv = new InventoryBasic(data.name + '\'s Inventory', true, 54);
+            let inv = new InventoryBasic(data.name + "'s Inventory", true, 54);
 
             if (data.raw.members[data.uuid].inv_contents !== undefined) {
-                let { items, length } = decodeNBTData(data.raw.members[data.uuid].inv_contents.data);
+                let { items, length } = decodeNBTData(data.raw.members[data.uuid].inv_contents.data)
 
                 for (let i = 0; i < length; i++) {                                    
                     let item = items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
@@ -47,18 +47,18 @@ module.exports = {
                 }
             } else {
                 for (let i = 18; i < 54; i++){                                    
-                    let itemstack = new ItemStack(MCItem.func_150899_d(166), 1, 0).func_151001_c('§cAPI DISABLED'); //Blocks.barrier
-                    let slot = i;
+                    let itemstack = new ItemStack(MCItem.func_150899_d(166), 1, 0).func_151001_c("§cAPI DISABLED"); //Blocks.barrier
+                    let slot = i
                     inv.func_70299_a(slot, itemstack);
                 }
             }
 
             if (data.raw.members[data.uuid].inv_armor !== undefined) {
-                let { items, length } = decodeNBTData(data.raw.members[data.uuid].inv_armor.data);
+                let { items, length } = decodeNBTData(data.raw.members[data.uuid].inv_armor.data)
                 
                 for (let i = 0; i < length; i++) {                                    
                     let item = items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
-                    let slot = i;
+                    let slot = i
                     if (slot == 0) {
                         slot = 7;
                     } else if (slot == 1) {
@@ -75,7 +75,7 @@ module.exports = {
                     }
                 }
             } else {
-                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(''); //Blocks.stainedGlass
+                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(""); //Blocks.stainedGlass
                 inv.func_70299_a(1, itemstack);
                 inv.func_70299_a(3, itemstack);
                 inv.func_70299_a(5, itemstack);
@@ -83,11 +83,11 @@ module.exports = {
             }
 
             if (data.raw.members[data.uuid].equippment_contents !== undefined) {
-                let { items, length } = decodeNBTData(data.raw.members[data.uuid].equippment_contents.data);
+                let { items, length } = decodeNBTData(data.raw.members[data.uuid].equippment_contents.data)
                 
                 for (let i = 0; i < length; i++) {                                    
                     let item = items.func_150305_b(i); //NBTTagList.getCompoundTagAt()
-                    let slot = i;
+                    let slot = i
                     if (slot == 0) {
                         slot = 11;
                     } else if (slot == 1) {
@@ -104,7 +104,7 @@ module.exports = {
                     }
                 }
             } else {
-                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(''); //Blocks.stainedGlass
+                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(""); //Blocks.stainedGlass
                 inv.func_70299_a(11, itemstack);
                 inv.func_70299_a(12, itemstack);
                 inv.func_70299_a(14, itemstack);
@@ -112,8 +112,8 @@ module.exports = {
             }
             
             for (let i = 0; i < 18; i++){                                    
-                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(''); //Blocks.stainedGlass
-                let slot = i;
+                let itemstack = new ItemStack(MCItem.func_150899_d(160), 1, 15).func_151001_c(""); //Blocks.stainedGlass
+                let slot = i
                 if (slot != 1 && slot != 3 && slot != 5 && slot != 7 && slot != 11 && slot != 12 && slot != 14 && slot != 15) {
                     inv.func_70299_a(slot, itemstack);
                 }
@@ -124,7 +124,7 @@ module.exports = {
             lastInv = guiChest;
             invToOpen = guiChest;
         }).catch(error => {
-            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`);
+            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
         });
     },
     inject(name) {
@@ -132,14 +132,14 @@ module.exports = {
     }
 }
 
-register('tick', () => {
+register("tick", () => {
     if(invToOpen !== null) {
         Minecraft.func_147108_a(invToOpen); //Minecraft.displayGuiScreen()
         invToOpen = null;
     }
 });
 
-register('guiMouseClick', (x, y, button, gui, event) => {
+register("guiMouseClick", (x, y, button, gui, event) => {
     if(Client.getMinecraft().field_71462_r === lastInv && lastInv !== null) {
         cancel(event);
     }

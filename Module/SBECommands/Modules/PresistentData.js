@@ -1,20 +1,20 @@
-import PogObject from '../../PogData';
+import PogObject from '../../PogData'
 
-let presistentData = new PogObject('SBECommands', {
-    'apikey': null,
-}, 'ConfigData/data.json');
+let presistentData = new PogObject("SBECommands", {
+    "apikey": null,
+}, "ConfigData/data.json")
 
 function save(param, variable) {
-    if (param === 'apikey') {
-        presistentData.apikey = variable;
+    if (param === "apikey") {
+        presistentData.apikey = variable
     }
-    presistentData.save();
+    presistentData.save()
 }
 
 function get(param) {
-    if (param === 'apikey') {
-        return presistentData.apikey;
+    if (param === "apikey") {
+        return presistentData.apikey
     }
 }
 
-export { save, get };
+export { save, get }

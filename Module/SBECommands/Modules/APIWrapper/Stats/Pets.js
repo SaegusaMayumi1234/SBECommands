@@ -1,55 +1,37 @@
-import { maxCustomLevel, pet_levels, pet_rarity_offset, pet_value, pet_rewards, uniquePets } from '../Constants/pet';
-import { toTitleCase } from '../../../Utils/Utils';
+import { maxCustomLevel, pet_items, pet_levels, pet_rarity_offset, pet_value, pet_rewards, uniquePets } from "../Constants/pet"
+import { toTitleCase } from '../../../Utils/Utils'
 
 const rarityToColor = {
-    'COMMON': 'f',
-    'UNCOMMON': 'a',
-    'RARE': '9',
-    'EPIC': '5',
-    'LEGENDARY': '6',
-    'MYTHIC': 'd'
-};
+    "COMMON": "f",
+    "UNCOMMON": "a",
+    "RARE": "9",
+    "EPIC": "5",
+    "LEGENDARY": "6",
+    "MYTHIC": "d"
+}
 
 exports.getPets = function getPets(uuid, profileData) {
-    const pets = profileData.members[uuid].pets;
+    const pets = profileData.members[uuid].pets
     let res = {
         rarity: {
-            'MYTHIC': [],
-            'LEGENDARY': [],
-            'EPIC': [],
-            'RARE': [],
-            'UNCOMMON': [],
-            'COMMON': []
+            "MYTHIC": [],
+            "LEGENDARY": [],
+            "EPIC": [],
+            "RARE": [],
+            "UNCOMMON": [],
+            "COMMON": []
         },
         unique: [],
         pet_score: 0,
         magic_finds: 0
-    };
+    }
     pets.forEach(pet => {
-        if (pet.heldItem === 'PET_ITEM_TOY_JERRY' || pet.heldItem === 'PET_ITEM_VAMPIRE_FANG') {
-            pet.tier = 'MYTHIC';
+        if (pet.heldItem === "PET_ITEM_TOY_JERRY" || pet.heldItem === "PET_ITEM_VAMPIRE_FANG") {
+            pet.tier = "MYTHIC"
         }
-        const itemsData = JSON.parse(FileLib.read('SBECommands', 'Constants/items.json'));
-        const petItemsData = itemsData.items.find(value => value.category === 'PET_ITEM' && value.id === pet.heldItem);
-        let petHeldItemColor = null;
-        if (petItemsData) {
-            if (pet.heldItem.includes('_SKILL_BOOST_')) {
-                petHeldItemColor = rarityToColor[petItemsData.id.split('_SKILL_BOOST_')[1]];
-            } else if (pet.heldItem.includes('_SKILLS_BOOST_')) {
-                petHeldItemColor = rarityToColor[petItemsData.id.split('_SKILLS_BOOST_')[1]];
-            } else if (pet.heldItem === 'ALL_SKILLS_SUPER_BOOST') {
-                petHeldItemColor = 'f';
-            } else {
-                if (petItemsData.tier) {
-                    petHeldItemColor = rarityToColor[petItemsData.tier];
-                } else {
-                    petHeldItemColor = 'f';
-                }
-            }
-        }
-        let petheldItemDisplay = petItemsData ? `&${petHeldItemColor}${petItemsData.name}` : null;
-        const maxLevel = maxCustomLevel[pet.type] || 100;
-        const rarityOffset = pet_rarity_offset[pet.tier.toLowerCase()];
+        let petheldItemDisplay = pet_items[pet.heldItem] !== undefined ? `&${rarityToColor[pet_items[pet.heldItem].tier]}${pet_items[pet.heldItem].name}` : null
+        const maxLevel = maxCustomLevel[pet.type] || 100
+        const rarityOffset = pet_rarity_offset[pet.tier.toLowerCase()]
         const levels = pet_levels.slice(rarityOffset, rarityOffset + maxLevel - 1);
         let xpTotal = 0;
         let level = 1;
@@ -68,33 +50,33 @@ exports.getPets = function getPets(uuid, profileData) {
             level = maxLevel;
         }
         res.rarity[pet.tier].push({
-            name: toTitleCase(pet.type.toLowerCase().replace(/_/g, ' ')),
-            nameDisplay: `&${rarityToColor[pet.tier]}${toTitleCase(pet.type.toLowerCase().replace(/_/g, ' '))}${pet.skin !== null ? ' ✦' : ''} (${level})`,
+            name: toTitleCase(pet.type.toLowerCase().replace(/_/g, " ")),
+            nameDisplay: `&${rarityToColor[pet.tier]}${toTitleCase(pet.type.toLowerCase().replace(/_/g, " "))}${pet.skin !== null ? " ✦" : ""} (${level})`,
             type: pet.type,
             heldItem: pet.heldItem,
             heldItemDisplay: petheldItemDisplay,
             level: level,
             tier: pet.tier
-        });
-    });
-    let uniquePetsTemp = [];
+        })
+    })
+    let uniquePetsTemp = []
     Object.keys(res.rarity).forEach(rarity => {
-        res.rarity[rarity] = res.rarity[rarity].sort((a, b) => b.level - a.level);
+        res.rarity[rarity] = res.rarity[rarity].sort((a, b) => b.level - a.level)
         const petsByRarity = res.rarity[rarity];
-        const petsByRarityLength = petsByRarity.length;
+        const petsByRarityLength = petsByRarity.length
         for (let i = 0; i < petsByRarityLength; i++) {
             if (!uniquePetsTemp.includes(petsByRarity[i].type)) {
-                uniquePetsTemp.push(petsByRarity[i].type);
-                res.unique.push(petsByRarity[i]);
-                res.pet_score += pet_value[petsByRarity[i].tier.toLowerCase()];
+                uniquePetsTemp.push(petsByRarity[i].type)
+                res.unique.push(petsByRarity[i])
+                res.pet_score += pet_value[petsByRarity[i].tier.toLowerCase()]
             }
         }
-    });
-    let petsRewardArr = Array.from(Object.keys(pet_rewards));
+    })
+    let petsRewardArr = Array.from(Object.keys(pet_rewards))
     for (let i = 0; i < petsRewardArr.length; i++) {
         if (res.pet_score > parseInt(petsRewardArr[i])) {
-            res.magic_finds = pet_rewards[petsRewardArr[i]].magic_find;
+            res.magic_finds = pet_rewards[petsRewardArr[i]].magic_find
         }
     }
-    return res;
-};
+    return res
+}

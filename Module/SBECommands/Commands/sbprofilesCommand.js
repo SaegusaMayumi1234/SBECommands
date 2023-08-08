@@ -1,5 +1,5 @@
-import { getProfile } from '../Modules/APIWrapper/Route';
-import { errorRead, humanizeTime, timestampToDate } from '../Utils/Utils';
+import { getProfile } from "../Modules/APIWrapper/Route";
+import { errorRead, humanizeTime, timestampToDate } from "../Utils/Utils";
 
 let customCommandName = 'sbprofiles';
 
@@ -14,17 +14,17 @@ module.exports = {
             }
             let chat = [];
             chat.push(new Message().addTextComponent(new TextComponent(`&bProfiles for: ${data.formatedName}&r`)));
-            chat.push(new Message().addTextComponent(new TextComponent('&r')));
+            chat.push(new Message().addTextComponent(new TextComponent(`&r`)))
             data.raw.profiles.forEach(profile => {
                 chat.push(new Message().addTextComponent(new TextComponent(`&b${profile.cute_name}: ${profile.selected ? '&aSelected' : '&cNot Selected'}&r`)));
-            });
-            ChatLib.chat('&c&m--------------------&r');
+            })
+            ChatLib.chat("&c&m--------------------&r")
             chat.forEach(msg => {
-                msg.chat();
-            });
-            ChatLib.chat('&c&m--------------------&r');
+                msg.chat()
+            })
+            ChatLib.chat("&c&m--------------------&r")
         }).catch(error => {
-            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`);
+            ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
         });
         
     },
