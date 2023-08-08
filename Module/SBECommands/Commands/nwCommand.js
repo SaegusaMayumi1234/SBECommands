@@ -67,7 +67,6 @@ module.exports = {
                     ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
                 });
             }).catch(error => {
-                console.log(JSON.stringify(error));
                 ChatLib.chat(`&3[SBEC] &cUnknown error occured while trying to run ${customCommandName}! If this issue still presist report this to module author!`)
             });
         }).catch(error => {
