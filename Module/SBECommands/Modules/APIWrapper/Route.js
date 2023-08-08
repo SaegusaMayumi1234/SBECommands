@@ -196,7 +196,7 @@ function getMuseumData(profileId) {
         parseBody: true,
     })
     .then(museum => {
-            return museum.data;
+        return museum.data;
     }).catch(error => {
         return getErrorMessage(error, 'hypixel', 'while trying to get museum data');
     })
@@ -237,7 +237,7 @@ function getApiKeyStatus(apikey) {
         parseBody: true,
     })
     .then(player => {
-            return { valid: true };
+        return { valid: true };
     }).catch(error => {
         return getErrorMessage(error, 'hypixel', 'while trying to get api key status');
     })
