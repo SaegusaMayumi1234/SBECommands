@@ -16,7 +16,7 @@ export const leveling_caps = {
     blaze: 9,
     vampire: 5,
     catacombs: 100,
-    hotm: 7,
+    hotm: 10,
 };
 
 export const skill_xp = {
@@ -51,7 +51,7 @@ export const catacombs_xp = [
     60000000, 75000000, 93000000, 116250000,
 ];
 
-export const hotm_xp = [0, 3000, 9000, 25000, 60000, 100000, 150000];
+export const hotm_xp = [0, 3000, 9000, 25000, 60000, 100000, 150000, 210000, 290000, 400000];
 
 export const pet_xp = [
     100, 110, 120, 130, 145, 160, 175, 190, 210, 230, 250, 275, 300, 330, 360, 400, 440, 490, 540, 600, 660, 730, 800,

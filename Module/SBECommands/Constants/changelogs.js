@@ -96,4 +96,10 @@ export const changelogs = {
         'Changed how hotm level displayed and show disabled perks in sbhotm command.',
         'Fixed so many bug that I can\'t mention each.',
     ],
+    '2.0.1': [
+        'Support hotm level 10',
+        'Fixed powder showing wrong amount in sbhotm',
+        'Added glacite powder to sbhotm'
+    ],
+    '2.0.2': ['Changed api subdomain'],
 };

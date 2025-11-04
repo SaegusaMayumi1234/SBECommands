@@ -43,6 +43,7 @@ module.exports = {
                 chat.push('&aPowder &6[&aAvailable&6/&bTotal&6]&a:&r');
                 chat.push(` &3- &2Mithril: &6[&a${addNotation('commas', data.mining.mithril_powder.current)}&6/&b${addNotation('commas', data.mining.mithril_powder.total)}&6]&r`);
                 chat.push(` &3- &dGemstone: &6[&a${addNotation('commas', data.mining.gemstone_powder.current)}&6/&b${addNotation('commas', data.mining.gemstone_powder.total)}&6]&r`);
+                chat.push(` &3- &bGlacite: &6[&a${addNotation('commas', data.mining.glacite_powder.current)}&6/&b${addNotation('commas', data.mining.gemstone_powder.total)}&6]&r`);
                 sendMultiLineChat(chat, true);
             })
             .catch((error) => {
